@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -73,3 +74,7 @@ export default defineConfig([
 ])
 
 ```
+=======
+# crystal-frontend
+CrystalVote frontend is a modern, responsive web application built with React, TypeScript, Vite, and Tailwind CSS. It delivers an intuitive user interface for secure elections, voting, and election management.
+>>>>>>> 3eb80e7e7ea0a448d24e9b2a24de390856f7da14

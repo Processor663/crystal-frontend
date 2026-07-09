@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0d0f14;
+  --color-surface: #14171f;
+  --color-surface2: #1c2030;
+  --color-border: #2a2f42;
+  --color-purple: #7c6af4;
+  --color-purple-dim: #3d3580;
+  --color-teal: #2dd4bf;
+  --color-teal-dim: #0d4a44;
+  --color-amber: #f4a623;
+  --color-pink: #e879b4;
+  --color-red: #f04646;
+  --color-green: #22c55e;
+  --color-text: #e8eaf2;
+  --color-muted: #6b7280;
+  --color-accent: #8b7ff5;
+  --font-sans: "Outfit", sans-serif;
+  --font-serif: "DM Serif Display", serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-muted bg-bg mx-auto max-w-[1320px] px-4;
+
+  }
+
+  h1 {
+    font-size: clamp(1.125rem, 4vw, 1.625rem);
+    @apply font-bold;
+  }
+
+  h2 {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    @apply font-bold;
+  }
+
+  p {
+    font-size: clamp(0.6875rem, 3vw, 0.8125rem);
+  }
+}
+
+/* @utility app-container {
+  @apply mx-auto max-w-[1320px] px-4;
+} */

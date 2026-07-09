@@ -25,7 +25,7 @@
 
 @layer base {
   body {
-    @apply font-sans text-muted bg-bg mx-auto max-w-[1320px] px-4;
+    @apply font-sans text-muted bg-bg;
 
   }
 
@@ -44,6 +44,6 @@
   }
 }
 
-/* @utility app-container {
-  @apply mx-auto max-w-[1320px] px-4;
-} */
+
+
+

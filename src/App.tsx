@@ -1,14 +1,11 @@
-import Login from "@/components/Auth/Login/Login"
-
+import AppRoute from "./components/routes/AppRoute";
 
 function App() {
-
-
   return (
     <>
-   <Login />
+      <AppRoute />
     </>
   );
 }
 
-export default App
+export default App;

@@ -5,11 +5,11 @@ function Logo() {
   return (
     <>
       <div className="icon-container flex justify-center items-center flex-col ">
-        <span className="bg-accent p-4 rounded-[10px]">
+        <span className="bg-accent p-3 rounded-[10px]">
           <BsStar size="20" className="text-text"/>
         </span>
-        <h1 className="text-text">CrystalVote</h1>
-        <p className="">Secure Election Platform</p>
+        <p className="text-text font-serif tracking-[-0.3px] text-[1.25rem]">CrystalVote</p>
+        <p className=" font-mono">Secure Election Platform</p>
       </div>
     </>
   );

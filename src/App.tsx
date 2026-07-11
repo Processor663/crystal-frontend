@@ -1,4 +1,4 @@
-import AppRoute from "./components/routes/AppRoute";
+import AppRoute from "./components/routes/user.route";
 
 function App() {
   return (

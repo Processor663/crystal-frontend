@@ -1,15 +1,20 @@
 import Logo from "../../Logo/Logo";
-import AsideItem from "../SideBarItem/SideBarItem";
+import SideItem from "../SideBarItem/SideBarItem";
 
-const AsideBar = () => {
+// types
+import  type{SideBarProps} from "@/components/types/navItem.types"
+
+
+
+const SideBar = (props: SideBarProps) => {
   return (
     <div className="hidden md:block">
       <div className="my-10">
         <Logo />
       </div>
-      <AsideItem />
+      <SideItem {...props} />
     </div>
   );
 };
 
-export default AsideBar;
+export default SideBar;

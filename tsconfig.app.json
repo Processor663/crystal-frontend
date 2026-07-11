@@ -8,11 +8,11 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
 
-//===========for using @ import ==================
-      "paths": {
+    //===========for using @ import ==================
+    "paths": {
       "@/*": ["./src/*"]
     },
- //=========================================================   
+    //=========================================================
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,12 +26,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-
+    "noFallthroughCasesInSwitch": true
   },
 
- 
-
-    
-  "include": ["src"]
+  "include": ["src", "src/components/types/navItem.types.ts"]
 }

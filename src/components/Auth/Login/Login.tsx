@@ -22,7 +22,7 @@ export default function SignInForm() {
   const handleFinish = (values: SignInFormValues) => {
     // Wire this up to your auth call (e.g. Better-Auth sign-in)
     if (values) {
-      navigate("/user");
+      navigate("me");
     }
     console.log("Sign in submitted:", values);
   };

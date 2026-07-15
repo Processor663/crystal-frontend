@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
 position: relative;
+
   .half-circle {
     clip-path: circle(39.5% at 98% 0);
     position: absolute;
@@ -10,5 +11,6 @@ position: relative;
     /* background-color: red; */
     width: 150px;
     height: 150px;
+    opacity: 0.4;
   }
 `;

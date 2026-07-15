@@ -28,15 +28,15 @@ function StatCard({
   return (
     <Wrapper>
       <div className="relative overflow-hidden rounded-2xl bg-surface  border border-border p-5">
-        <div className={`half-circle ${accentClasses[accent]} `}></div>
+        <div
+          className={`half-circle ${accentClasses[accent]} `}
+        ></div>
 
         <div>
           <p className="text-[0.6875rem]  tracking-widest text-slate-400 uppercase">
             {label}
           </p>
-          <p className=" text-[1.75rem] font-bold text-white">
-            {value}
-          </p>
+          <p className=" text-[1.75rem] font-bold text-white">{value}</p>
           {change && (
             <p
               className={` text-[0.75rem] ${changeType === "positive" ? "text-emerald-400" : "text-slate-400"}`}
@@ -53,7 +53,7 @@ function StatCard({
 
 export default function ElectionStatsRow() {
   return (
-    <div className="bg-[#0B0D12] p-6">
+    <div className="bg-[#0B0D12] pt-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Total Votes Cast"

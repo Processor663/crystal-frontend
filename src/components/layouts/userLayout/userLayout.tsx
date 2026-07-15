@@ -10,7 +10,7 @@ import { LiaVoteYeaSolid } from "react-icons/lia";
 import { BsActivity } from "react-icons/bs";
 
 
-const navItems = [
+export const navItems = [
   {
     desc: "Dashboard",
     path: "",
@@ -32,8 +32,8 @@ const navItems = [
 function userLayout() {
   return (
     <>
-      <div className="flex">
-        <div className="w-[18%]  bg-surface">
+      <div className="flex ">
+        <div className="hidden lg:block w-[18%]  bg-surface">
           <SideBar navItems={navItems} />
         </div>
         <div className="flex-1">

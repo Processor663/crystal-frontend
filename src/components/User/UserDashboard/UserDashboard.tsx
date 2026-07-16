@@ -1,14 +1,15 @@
-
 import App_Drawer from "@/components/shared/Drawer/Drawer";
 import ElectionStatsRow from "@/components/shared/StatCard/StatCard";
 import LeadingCandidatesTable from "../LeadingCandidatesTable/LeadingCandidatesTable";
 import LeadingCandidatesProgress from "../LeadingCandidatesProgress/LeadingCandidatesProgress";
 import VotingStatusCard from "../VotingStatusCard/VotingStatusCard";
 
+import { motion } from "framer-motion";
+
 function UserDashboard() {
   return (
     <>
-      <div className="flex-1 py-5 ">
+      <div className="flex-1 py-5">
         <h1 className="text-text hidden lg:block">Voter Dashboard</h1>
         <div className="flex justify-between align-center">
           {/* Mobile Navbar */}
@@ -19,7 +20,24 @@ function UserDashboard() {
             <div>
               <div>
                 <p>Welcome back, Adebayo</p>
-                <p className="text-text"> Federal Election 2025</p>
+                <div className="overflow-hidden whitespace-nowrap w-35 md:w-70">
+                  <motion.div
+                    // className="flex gap-8"
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "linear",
+                    }}
+                  >
+                    <p className="text-text">
+                      {" "}
+                      Federal Election 2025................ Federal Election
+                      2025
+                    </p>
+                  </motion.div>
+                </div>
               </div>
             </div>
           </div>
@@ -45,16 +63,16 @@ function UserDashboard() {
           <ElectionStatsRow />
         </div>
       </div>
-      <div className="lg:flex gap-5">
-        <div className="flex-1">
+      <div className="lg:flex gap-5 ">
+        <div className="flex-1 ">
           {/* This should return leading candidate in each category of election */}
           <LeadingCandidatesTable />
         </div>
-        <div className="lg:w-[30%] flex flex-col gap-4">
+        <div className="lg:w-[30%]">
           <div className="hidden lg:block">
             <VotingStatusCard />
           </div>
-          <div className="my-5">
+          <div className="mt-5">
             <LeadingCandidatesProgress />
           </div>
         </div>

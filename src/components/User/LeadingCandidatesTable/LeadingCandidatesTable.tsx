@@ -54,7 +54,7 @@ export default function LeadingCandidatesTable({
   rows = defaultRows,
 }: OpponentComparisonProps) {
   return (
-    <div className="w-full  rounded-2xl border border-border bg-surface p-6 shadow-lg">
+    <div className="w-full h-full  rounded-2xl border border-border bg-surface p-6 shadow-lg">
       <h2 className="text-lg font-bold text-white">Opponent Comparison</h2>
       <p className="mb-5 text-sm text-slate-400">Head-to-head metrics</p>
 

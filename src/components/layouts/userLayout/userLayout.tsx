@@ -39,7 +39,7 @@ function userLayout() {
         <div className="hidden lg:block w-[18%]  bg-surface">
           <SideBar navItems={navItems} />
         </div>
-        <div className="flex-1 p-2 lg:p-5">
+        <div className="flex-1 p-2 lg:p-5 lg:h-dvh lg:overflow-y-auto">
           <Outlet />
         </div>
       </div>

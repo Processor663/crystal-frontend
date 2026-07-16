@@ -6,7 +6,7 @@ import type { SideItemProps } from "@/components/types/navItem.types";
 const SideItem = ({ navItems }: SideItemProps) => {
   console.log(navItems);
   return (
-    <div className="border-border border border-l-0 py-5">
+    <div className=" lg:border-border lg:border border-l-0 py-5 pb-10 lg:pb-0">
       {navItems.map(({ desc, path, icon: Icon }) => (
         <NavLink key={desc} to={path}>
           {({ isActive }) => (
@@ -18,7 +18,7 @@ const SideItem = ({ navItems }: SideItemProps) => {
               }`}
             >
               <Icon />
-              <span>{desc}</span>
+              <p>{desc}</p>
             </div>
           )}
         </NavLink>

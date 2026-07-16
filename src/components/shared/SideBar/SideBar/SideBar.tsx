@@ -13,9 +13,9 @@ const SideBar = (props: SideBarProps) => {
       <div className="my-10">
         <Logo />
       </div>
-     
+
       <SideItem {...props} />
-      <div className="flex gap-3 mt-8 p-2 lg:p-0 mb-10 lg:mt-10 leading-4  flex-col md:flex-row md:justify-center">
+      <div className="flex gap-3 mt-40 p-2 mb-10  leading-4 ">
         <div className=" text-text rounded-full h-10 w-10 bg-accent flex items-center justify-center">
           AO
         </div>
@@ -23,8 +23,8 @@ const SideBar = (props: SideBarProps) => {
           <p className="text-text text-[1rem]">Adebayo Okafor</p>
           <small className="text-center">Registered Voter</small>
           <div className="flex gap-1 text-text items-center mt-3  transition-transform duration-200 hover:scale-105">
-            <PiSignOutThin size="20" />
-            <small>sign out</small>
+            <PiSignOutThin size="20" className="text-amber" />
+            <small className="text-amber">Sign out</small>
           </div>
         </div>
       </div>

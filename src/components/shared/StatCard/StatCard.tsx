@@ -1,7 +1,8 @@
+import { memo } from "react";
 import type { ReactNode } from "react";
 import { Wrapper } from "./StatCard.styles";
 
-type AccentColor = "purple" | "teal"  | "rose" | "amber";
+type AccentColor = "purple" | "teal" | "rose" | "amber";
 
 interface StatCardProps {
   label: string;
@@ -28,9 +29,7 @@ function StatCard({
   return (
     <Wrapper>
       <div className="relative overflow-hidden rounded-2xl bg-surface  border border-border p-5">
-        <div
-          className={`half-circle ${accentClasses[accent]} `}
-        ></div>
+        <div className={`half-circle ${accentClasses[accent]} `}></div>
 
         <div>
           <p className="text-[0.6875rem]  tracking-widest text-slate-400 uppercase">
@@ -51,7 +50,7 @@ function StatCard({
   );
 }
 
-export default function ElectionStatsRow() {
+export default memo(function ElectionStatsRow() {
   return (
     <div className="bg-[#0B0D12] pt-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -83,4 +82,4 @@ export default function ElectionStatsRow() {
       </div>
     </div>
   );
-}
+});

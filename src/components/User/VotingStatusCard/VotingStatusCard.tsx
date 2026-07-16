@@ -1,4 +1,6 @@
-import { CiCircleCheck } from "react-icons/ci";
+import { memo } from "react";
+
+import { IoMdCheckmark } from "react-icons/io";
 import { CiClock2 } from "react-icons/ci";
 
 export type VotingStepStatus = "complete" | "pending";
@@ -17,25 +19,25 @@ interface VotingStatusCardProps {
 const defaultSteps: VotingStep[] = [
   {
     id: "identity",
-    title: "Identity Verified",
-    detail: "NIN: ••••••4782",
+    title: "NIN Verification",
+    detail: "Verified",
     status: "complete",
   },
   {
-    id: "ward",
-    title: "Ward Assigned",
-    detail: "Lagos Mainland · Ward 07",
+    id: "Email",
+    title: "Email Verification",
+    detail: "Verified",
     status: "complete",
   },
   {
     id: "vote",
-    title: "Vote Pending",
-    detail: "You have not voted yet",
-    status: "pending",
+    title: "Voting Eligibility",
+    detail: "You are eligible to vote.",
+    status: "complete",
   },
 ];
 
-export default function VotingStatusCard({
+export default memo(function VotingStatusCard({
   steps = defaultSteps,
 }: VotingStatusCardProps) {
   return (
@@ -57,7 +59,7 @@ export default function VotingStatusCard({
                 }`}
               >
                 {isComplete ? (
-                  <CiCircleCheck className="h-4 w-4" />
+                  <IoMdCheckmark className="h-4 w-4" />
                 ) : (
                   <CiClock2 className="h-4 w-4" />
                 )}
@@ -72,4 +74,4 @@ export default function VotingStatusCard({
       </ul>
     </div>
   );
-}
+})

@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 export interface LeadingCandidateTableRow {
   id: string;
   name: string;
@@ -52,14 +54,13 @@ const defaultRows: LeadingCandidateTableRow[] = [
     position: "president",
     color: "#EC4899",
   },
-  
 ];
 
 function formatVotes(n: number) {
   return n.toLocaleString("en-US");
 }
 
-export default function LeadingCandidatesTable({
+export default memo (function LeadingCandidatesTable({
   rows = defaultRows,
 }: LeadingCandidatesTableProps) {
   return (
@@ -119,4 +120,4 @@ export default function LeadingCandidatesTable({
       </div>
     </div>
   );
-}
+})

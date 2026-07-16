@@ -1,6 +1,5 @@
+import { memo } from "react";
 import { BsActivity } from "react-icons/bs";
-
-
 
 export interface CandidateVoteShare {
   id: string;
@@ -51,7 +50,7 @@ const defaultCandidates: CandidateVoteShare[] = [
   },
 ];
 
-export default function LeadingCandidatesProgress({
+export default memo(function LeadingCandidatesProgress({
   candidates = defaultCandidates,
   updatedEverySeconds = 30,
 }: LiveVoteDistributionProps) {
@@ -90,7 +89,7 @@ export default function LeadingCandidatesProgress({
               </span>
             </div>
 
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/5">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{ width: `${c.percent}%`, backgroundColor: c.color }}
@@ -101,4 +100,4 @@ export default function LeadingCandidatesProgress({
       </ul>
     </div>
   );
-}
+})

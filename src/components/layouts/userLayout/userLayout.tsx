@@ -5,7 +5,7 @@ import SideBar from "@/components/shared/SideBar/SideBar/SideBar";
 
 //Icons
 import { LuLayoutDashboard } from "react-icons/lu";
-import { LiaVoteYeaSolid } from "react-icons/lia";
+
 import { BsActivity } from "react-icons/bs";
 import { MdHowToVote, MdSettings } from "react-icons/md";
 
@@ -43,6 +43,7 @@ function userLayout() {
           <Outlet />
         </div>
       </div>
+     
     </>
   );
 }

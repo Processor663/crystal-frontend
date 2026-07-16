@@ -10,7 +10,7 @@ function UserDashboard() {
   return (
     <>
       <div className="flex-1 py-5">
-        <h1 className="text-text hidden lg:block">Voter Dashboard</h1>
+        <h1 className="text-text hidden lg:block">Dashboard</h1>
         <div className="flex justify-between align-center">
           {/* Mobile Navbar */}
           <div className="lg:hidden">

@@ -24,16 +24,20 @@
   --font-mono: "DM Mono", monospace;
 }
 
+* {
+  box-sizing: border-box !important;
+}
+
 @layer base {
   body {
-    @apply font-sans text-muted bg-bg;
+    @apply font-sans text-muted bg-bg box-border;
 
+    
   }
 
   h1 {
     font-size: clamp(1.125rem, 4vw, 1.625rem);
     @apply font-bold;
-  
   }
 
   h2 {
@@ -45,7 +49,3 @@
     font-size: clamp(0.6875rem, 3vw, 0.8125rem);
   }
 }
-
-
-
-

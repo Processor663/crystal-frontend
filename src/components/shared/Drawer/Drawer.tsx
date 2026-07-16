@@ -78,29 +78,28 @@ const App_Drawer: React.FC = () => {
             },
           }}
         >
-          <div className="border border-border">
+          <div className="border border-border pb-50">
             <SideItem navItems={navItems} />
-
-            <div className="flex gap-1 text-text items-center my-8 pl-3  transition-transform duration-200 hover:scale-105">
-              <PiSignOutThin size="25" className="text-amber-500" />
-              <small className="text-amber-500 text-[.8rem]">Sign out</small>
-            </div>
           </div>
-          <div className="mt-20">
+          {/* <div className="mt-20 hidden">
             <Logo />
+          </div> */}
+          <div className="flex gap-1 text-text items-center my-8 pl-3  transition-transform duration-200 hover:scale-105">
+            <PiSignOutThin size="25" className="text-amber-500" />
+            <small className="text-amber-500 text-[.8rem]">Sign out</small>
           </div>
 
-          <p className="flex gap-1 justify-center items-center pt-3">
+          <p className="flex gap-1  items-center pt-0 pl-3 ">
             &copy; {new Date().getFullYear()}{" "}
             <a href="mailto:miracleama17@gmail.com">Amadi Miracle .</a>
             All rights reserved.
           </p>
-          <p className="flex gap-1 justify-center items-center ">
+          <p className="flex gap-1 pl-3 ">
             Have a project in mind?{" "}
             <a
               href="mailto:miracleama17@gmail.com"
               className="font-medium text-accent hover:underline"
-              style={{color: "#8b7ff5"}}
+              style={{ color: "#8b7ff5" }}
             >
               Click here to get in touch.
             </a>

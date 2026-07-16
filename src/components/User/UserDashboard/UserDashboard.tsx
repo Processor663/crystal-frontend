@@ -63,8 +63,8 @@ function UserDashboard() {
           <ElectionStatsRow />
         </div>
       </div>
-      <div className="lg:flex gap-5 ">
-        <div className="flex-1 ">
+      <div className="lg:flex gap-4 ">
+        <div className="flex-1 md:overflow-auto">
           {/* This should return leading candidate in each category of election */}
           <LeadingCandidatesTable />
         </div>

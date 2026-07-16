@@ -35,11 +35,11 @@ export const navItems = [
 function userLayout() {
   return (
     <>
-      <div className="flex ">
+      <div className="flex overflow-hidden">
         <div className="hidden lg:block w-[18%]  bg-surface">
           <SideBar navItems={navItems} />
         </div>
-        <div className="flex-1 p-2 lg:p-5 lg:h-dvh lg:overflow-y-auto">
+        <div className=" w-full md:flex-1  p-2 lg:p-5 lg:h-dvh lg:overflow-y-auto">
           <Outlet />
         </div>
       </div>

@@ -60,7 +60,7 @@ function formatVotes(n: number) {
   return n.toLocaleString("en-US");
 }
 
-export default memo (function LeadingCandidatesTable({
+export default memo(function LeadingCandidatesTable({
   rows = defaultRows,
 }: LeadingCandidatesTableProps) {
   return (
@@ -120,4 +120,4 @@ export default memo (function LeadingCandidatesTable({
       </div>
     </div>
   );
-})
+});

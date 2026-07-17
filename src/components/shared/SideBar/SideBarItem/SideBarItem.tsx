@@ -8,7 +8,7 @@ const SideItem = ({ navItems }: SideItemProps) => {
   return (
     <div className=" lg:border-border lg:border border-l-0 py-5 pb-10 lg:pb-0">
       {navItems.map(({ desc, path, icon: Icon }) => (
-        <NavLink key={desc} to={path}>
+        <NavLink key={desc} to={path} end={path === ""}>
           {({ isActive }) => (
             <div
               className={`flex items-center gap-2 p-3 ${

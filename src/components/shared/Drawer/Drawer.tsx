@@ -10,7 +10,7 @@ import SideItem from "../SideBar/SideBarItem/SideBarItem";
 // import SideBar from "../SideBar/SideBar/SideBar";
 
 // Object
-import { navItems } from "@/components/layouts/userLayout/userLayout";
+import { navItems } from "@/components/layouts/userSideBarLayout/userSideBarLayout";
 
 const App_Drawer: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -55,7 +55,6 @@ const App_Drawer: React.FC = () => {
           closable={{ "aria-label": "Close Button", placement: "end" }}
           onClose={onClose}
           title={
-            <div className="">
               <div className="flex gap-3 items-center">
                 <div className=" text-text rounded-full h-10 w-10 bg-accent flex items-center justify-center">
                   AO
@@ -65,7 +64,7 @@ const App_Drawer: React.FC = () => {
                   <p className="text-text"> Federal Election 2025</p>
                 </div>
               </div>
-            </div>
+    
           }
           open={open}
           styles={{
@@ -80,9 +79,6 @@ const App_Drawer: React.FC = () => {
           <div className="border border-border pb-50">
             <SideItem navItems={navItems} />
           </div>
-          {/* <div className="mt-20 hidden">
-            <Logo />
-          </div> */}
           <div className="flex gap-1 text-text items-center my-8 pl-3  transition-transform duration-200 hover:scale-105">
             <PiSignOutThin size="25" className="text-amber-500" />
             <small className="text-amber-500 text-[.8rem]">Sign out</small>

@@ -8,6 +8,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 
 import { BsActivity } from "react-icons/bs";
 import { MdHowToVote, MdSettings } from "react-icons/md";
+import NavBar from "@/components/shared/NavBar/NavBar";
 
 export const navItems = [
   {
@@ -22,7 +23,7 @@ export const navItems = [
   },
   {
     desc: "Live Scores",
-    path: "live",
+    path: "live-scores",
     icon: BsActivity,
   },
   {
@@ -32,20 +33,22 @@ export const navItems = [
   },
 ];
 
-function userLayout() {
+function userSideBarLayout() {
   return (
     <>
       <div className="flex overflow-hidden">
         <div className="hidden lg:block w-[18%]  bg-surface">
           <SideBar navItems={navItems} />
         </div>
-        <div className=" w-full md:flex-1 pb-8 p-2 lg:p-5 lg:h-dvh lg:overflow-y-auto">
+        <div className=" w-full md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:h-dvh lg:overflow-y-auto">
+          <div className="bg-bg sticky top-0 z-1000">
+            <NavBar />
+          </div>
           <Outlet />
         </div>
       </div>
-     
     </>
   );
 }
 
-export default userLayout;
+export default userSideBarLayout;

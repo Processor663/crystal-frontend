@@ -1,6 +1,8 @@
 import { memo } from "react";
 import { BsActivity } from "react-icons/bs";
 
+import "simplebar-react/dist/simplebar.min.css";
+
 export interface CandidateVoteShare {
   id: string;
   initials: string;
@@ -40,6 +42,7 @@ const defaultCandidates: CandidateVoteShare[] = [
     percent: 18.9,
     color: "#F59E0B",
   },
+
   {
     id: "nk",
     initials: "NK",
@@ -55,8 +58,8 @@ export default memo(function LeadingCandidatesProgress({
   updatedEverySeconds = 30,
 }: LiveVoteDistributionProps) {
   return (
-    <div className="w-full rounded-2xl border border-border bg-surface p-6 shadow-lg">
-      <div className="mb-6 flex items-center gap-2">
+    <div className="w-full rounded-2xl border border-border bg-surface p-6 pt-0 shadow-lg sticky top-0 overflow-y-auto  max-h-100">
+      <div className="mb-6 pt-5 pb-3 flex items-center gap-2 sticky top-0 bg-surface">
         <BsActivity className="h-5 w-5 text-[#7C6AF4]" />
         <div>
           <h2 className="text-base font-semibold text-white">
@@ -68,7 +71,7 @@ export default memo(function LeadingCandidatesProgress({
         </div>
       </div>
 
-      <ul className="space-y-5">
+      <ul className="space-y-5  list">
         {candidates.map((c) => (
           <li key={c.id}>
             <div className="mb-2 flex items-center justify-between">
@@ -100,4 +103,4 @@ export default memo(function LeadingCandidatesProgress({
       </ul>
     </div>
   );
-})
+});

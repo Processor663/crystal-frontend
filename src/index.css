@@ -31,8 +31,6 @@
 @layer base {
   body {
     @apply font-sans text-muted bg-bg box-border;
-
-    
   }
 
   h1 {
@@ -48,4 +46,40 @@
   p {
     font-size: clamp(0.6875rem, 3vw, 0.8125rem);
   }
+}
+
+
+@media screen and (min-width: 768px) {
+
+  
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track (the long background) */
+::-webkit-scrollbar-track {
+  background: #2a2f42;
+
+}
+
+/* Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #8b5cf6;
+  border-radius: 10px;
+}
+
+/* Hover state */
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+
+/* Active (while dragging) */
+::-webkit-scrollbar-thumb:active {
+  background: #7c3aed;
+}
+
+
+
+  
 }

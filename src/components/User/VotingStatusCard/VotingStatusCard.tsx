@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useLocation } from "react-router-dom";
 
 import { IoMdCheckmark } from "react-icons/io";
 import { CiClock2 } from "react-icons/ci";
@@ -40,8 +41,13 @@ const defaultSteps: VotingStep[] = [
 export default memo(function VotingStatusCard({
   steps = defaultSteps,
 }: VotingStatusCardProps) {
+  const { pathname } = useLocation();
+  const cast = pathname.includes("vote")
+    ? "flex items-center gap-4 gap-4 bg-[#22c55e12] p-3 border border-[#22c55e26] rounded-xl"
+    : " flex items-center gap-4 ";
+
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-6 shadow-lg">
+    <div className="w-full  rounded-2xl border border-border bg-surface p-6 shadow-lg">
       <h2 className="mb-5 text-base font-semibold text-white">
         Your Voting Status
       </h2>
@@ -50,7 +56,7 @@ export default memo(function VotingStatusCard({
         {steps.map((step) => {
           const isComplete = step.status === "complete";
           return (
-            <li key={step.id} className="flex items-center gap-4">
+            <li key={step.id} className={`${cast}`}>
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 ${
                   isComplete
@@ -74,4 +80,4 @@ export default memo(function VotingStatusCard({
       </ul>
     </div>
   );
-})
+});

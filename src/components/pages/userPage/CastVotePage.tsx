@@ -1,4 +1,4 @@
-import CastVote from "@/components/User/CastVote/CasteVote/CastVote";
+import CastVote from "@/components/User/Vote/Vote/Vote";
 
 
 const CastVotePage = () => {

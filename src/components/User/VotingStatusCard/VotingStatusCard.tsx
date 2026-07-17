@@ -47,7 +47,7 @@ export default memo(function VotingStatusCard({
     : " flex items-center gap-4 ";
 
   return (
-    <div className="w-full  rounded-2xl border border-border bg-surface p-6 shadow-lg">
+    <div className="w-full  rounded-2xl border border-border bg-surface p-5 shadow-lg">
       <h2 className="mb-5 text-base font-semibold text-white">
         Your Voting Status
       </h2>

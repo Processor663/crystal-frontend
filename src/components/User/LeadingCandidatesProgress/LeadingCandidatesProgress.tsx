@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { BsActivity } from "react-icons/bs";
 
-import "simplebar-react/dist/simplebar.min.css";
+
 
 export interface CandidateVoteShare {
   id: string;

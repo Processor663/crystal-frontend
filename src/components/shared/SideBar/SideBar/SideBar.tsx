@@ -15,7 +15,7 @@ const SideBar = (props: SideBarProps) => {
       </div>
 
       <SideItem {...props} />
-      <div className="flex gap-3 mt-30 p-2   leading-4 ">
+      <div className="flex gap-3 mt-30 p-2 leading-4 ">
         <div className=" text-text rounded-full h-10 w-10 bg-accent flex items-center justify-center">
           AO
         </div>

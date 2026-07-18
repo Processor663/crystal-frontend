@@ -18,8 +18,8 @@ export default function VoterTurnout({
   const displayPercent = Math.min(turnoutPercent, 100);
 
   return (
-    <div className="w-full rounded-2xl border border-white/5 bg-[#0D0F14] p-6 shadow-lg">
-      <h2 className="mb-5 text-xs font-semibold tracking-widest text-slate-400">
+    <div className="w-full rounded-md border border-border bg-surface p-6 shadow-lg my-5">
+      <h2 className="mb-5 text-xs font-semibold tracking-widest">
         VOTER TURNOUT
       </h2>
 

@@ -47,8 +47,8 @@ export default function TimeRemaining({
   ];
 
   return (
-    <div className="w-full rounded-2xl border border-white/5 bg-[#0D0F14] p-6 shadow-lg">
-      <h2 className="mb-4 text-xs font-semibold tracking-widest text-slate-400">
+    <div className="w-full rounded-md border border-border bg-surface p-6 shadow-lg">
+      <h2 className="mb-4 text-xs font-semibold tracking-widest">
         {title.toUpperCase()}
       </h2>
 

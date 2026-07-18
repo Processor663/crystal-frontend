@@ -7,8 +7,8 @@ const NavBar = () => {
   const { pathname } = useLocation();
   return (
     <>
-      <div className="mt-2.5 lg:mt-0 lg:py-3">
-        <h1 className="text-text hidden lg:block">
+      <div className="mt-2.5 lg:mt-0 lg:py-4">
+        <h1 className="text-text hidden lg:block ">
           {pathname.includes("vote") ? "Cast Your Vote" : "Dashboard"}
         </h1>
 

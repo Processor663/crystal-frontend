@@ -131,15 +131,15 @@ export default function CastVote({
 
   return (
     <div className="w-full  ">
-      <div className="bg-surface shadow-lg rounded-2xl  border border-border p-5 mt-5">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-white">Cast Your Vote</h2>
+      <div className=" bg-surface shadow-lg rounded-2xl  border border-border p-5 mt-5 ">
+        <div className=" mb-6 flex  flex-col sm:flex-row sm:justify-between sm:items-center gap-3 ">
+          <div className="text-center mt-5 md:mt-0">
+            <h2 className="text-lg text-white">Cast Your Vote</h2>
             <p className="text-sm text-slate-400">
               Select one candidate per position
             </p>
           </div>
-          <span className="rounded-full border border-[#7C6AF4]/30 bg-[#7C6AF4]/10 px-3 py-1 text-xs font-semibold text-[#A78BFA]">
+          <span className="w-full text-center py-3 rounded-full border border-[#7C6AF4]/30 bg-[#7C6AF4]/10 px-3 sm:w-fit md:py-1 text-xs font-semibold text-[#A78BFA]">
             {completed}/{totalPositions} selected
           </span>
         </div>

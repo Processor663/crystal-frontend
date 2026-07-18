@@ -18,7 +18,7 @@ export default function VoterTurnout({
   const displayPercent = Math.min(turnoutPercent, 100);
 
   return (
-    <div className="w-full rounded-md border border-border bg-surface p-6 shadow-lg my-5">
+    <div className="w-full rounded-2xl border border-border bg-surface p-6 shadow-lg my-5">
       <h2 className="mb-5 text-xs font-semibold tracking-widest">
         VOTER TURNOUT
       </h2>
@@ -32,7 +32,7 @@ export default function VoterTurnout({
 
       <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-white/5">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-[#7C6AF4] to-[#A78BFA] transition-all duration-500"
+          className="h-full rounded-full bg-linear-to-r from-[#7C6AF4] to-[#A78BFA] transition-all duration-500"
           style={{ width: `${displayPercent}%` }}
         />
       </div>
@@ -40,21 +40,17 @@ export default function VoterTurnout({
       <dl className="space-y-3">
         <div className="flex items-center justify-between">
           <dt className="text-sm text-slate-400">Votes cast</dt>
-          <dd className="text-sm font-semibold text-white">
-            {formatNumber(votesCast)}
-          </dd>
+          <dd className="text-sm  text-white">{formatNumber(votesCast)}</dd>
         </div>
         <div className="flex items-center justify-between">
           <dt className="text-sm text-slate-400">Registered</dt>
-          <dd className="text-sm font-semibold text-white">
+          <dd className="text-sm  text-white">
             {formatNumber(registeredVoters)}
           </dd>
         </div>
         <div className="flex items-center justify-between">
           <dt className="text-sm text-slate-400">Target</dt>
-          <dd className="text-sm font-semibold text-emerald-400">
-            {targetPercent}%
-          </dd>
+          <dd className="text-sm  text-green">{targetPercent}%</dd>
         </div>
       </dl>
     </div>

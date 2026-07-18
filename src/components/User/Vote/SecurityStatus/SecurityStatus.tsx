@@ -21,7 +21,7 @@ export default function SecurityStatus({
   items = defaultItems,
 }: SecurityStatusProps) {
   return (
-    <div className="w-full rounded-md border border-border bg-surface p-6 shadow-lg">
+    <div className="w-full rounded-2xl  border border-border bg-surface p-6 shadow-lg">
       <h2 className="mb-5 text-xs font-semibold tracking-widest">
         SECURITY STATUS
       </h2>
@@ -30,7 +30,7 @@ export default function SecurityStatus({
         {items.map((item) => (
           <li key={item.id} className="flex items-center justify-between">
             <span className="text-sm text-slate-400">{item.label}</span>
-            <span className="flex items-center gap-1.5 font-mono text-sm font-semibold text-emerald-400">
+            <span className="flex items-center gap-1.5 font-mono text-sm text-green">
               {item.value}
               {item.verified && <GiCheckMark className="h-3.5 w-3.5" />}
             </span>

@@ -179,18 +179,19 @@ export default function CastVote({
                       >
                         {candidate.initials}
                       </span>
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 overflow-hidden">
                         <p className="truncate text-sm font-medium text-white">
                           {candidate.name}
                         </p>
 
                         <div className="overflow-hidden whitespace-nowrap w-35 md:w-70">
                           <motion.div
-                            animate={{ x: ["0%", "-50%"] }}
+                            className="flex w-max"
+                            animate={{ x: ["30%", "-100%"] }}
                             transition={{
-                              duration: 5,
+                              duration: 15,
                               repeat: Infinity,
-                              repeatType: "reverse",
+                              repeatType: "loop",
                               ease: "linear",
                             }}
                           >

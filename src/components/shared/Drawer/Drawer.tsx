@@ -55,16 +55,15 @@ const App_Drawer: React.FC = () => {
           closable={{ "aria-label": "Close Button", placement: "end" }}
           onClose={onClose}
           title={
-              <div className="flex gap-3 items-center">
-                <div className=" text-text rounded-full h-10 w-10 bg-accent flex items-center justify-center">
-                  AO
-                </div>
-                <div>
-                  <p>Welcome back, Adebayo</p>
-                  <p className="text-text"> Federal Election 2025</p>
-                </div>
+            <div className="flex gap-3 items-center">
+              <div className=" text-text rounded-full h-10 w-10 bg-accent flex items-center justify-center">
+                AO
               </div>
-    
+              <div>
+                <p>Welcome back, Adebayo</p>
+                <p className="text-text"> Federal Election 2025</p>
+              </div>
+            </div>
           }
           open={open}
           styles={{
@@ -77,7 +76,10 @@ const App_Drawer: React.FC = () => {
           }}
         >
           <div className="border border-border pb-50">
-            <SideItem navItems={navItems} />
+            <SideItem
+              navItems={navItems}
+              onClose={onClose}
+            />
           </div>
           <div className="flex gap-1 text-text items-center my-8 pl-3  transition-transform duration-200 hover:scale-105">
             <PiSignOutThin size="25" className="text-amber-500" />

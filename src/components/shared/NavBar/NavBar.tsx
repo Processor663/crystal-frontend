@@ -23,19 +23,19 @@ const NavBar = () => {
                 <p>Welcome back, Adebayo</p>
                 <div className="overflow-hidden whitespace-nowrap w-35 md:w-70">
                   <motion.div
-                    // className="flex gap-8"
-                    animate={{ x: ["0%", "-50%"] }}
+                    className="flex w-max"
+                    animate={{ x: ["30%", "-100%"] }}
                     transition={{
-                      duration: 5,
+                      duration: 15,
                       repeat: Infinity,
-                      repeatType: "reverse",
+                      repeatType: "loop",
                       ease: "linear",
                     }}
                   >
                     <p className="text-text">
                       {" "}
-                      Federal Election 2025................ Federal Election
-                      2025
+                   
+                    This is amadi miracle, i built 
                     </p>
                   </motion.div>
                 </div>
@@ -52,7 +52,10 @@ const NavBar = () => {
               Voting Open
             </div>
             {!pathname.includes("vote") && (
-              <Link to="vote" className="hidden lg:block bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1">
+              <Link
+                to="vote"
+                className="hidden lg:block bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1"
+              >
                 Cast Your Vote
               </Link>
             )}

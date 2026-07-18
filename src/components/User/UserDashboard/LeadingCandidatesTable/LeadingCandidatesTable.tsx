@@ -46,14 +46,6 @@ const defaultRows: LeadingCandidateTableRow[] = [
     position: "president",
     color: "#EC4899",
   },
-  {
-    id: "nk",
-    name: "N. Kalu",
-    votes: 313797,
-    voteShare: 11.0,
-    position: "president",
-    color: "#EC4899",
-  },
 ];
 
 function formatVotes(n: number) {

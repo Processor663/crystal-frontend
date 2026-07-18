@@ -8,6 +8,7 @@ export interface NavItem {
 
 export interface SideItemProps {
   navItems: NavItem[];
+  onClose: ()=> void;
 }
 
 export interface SideBarProps {

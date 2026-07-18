@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 interface TimeRemainingProps {
   targetDate: Date | string;
@@ -29,8 +29,11 @@ export default function TimeRemaining({
   targetDate,
   title = "Time Remaining",
 }: TimeRemainingProps) {
-  const target =
-    typeof targetDate === "string" ? new Date(targetDate) : targetDate;
+
+  const target = useMemo(() => {
+    return typeof targetDate === "string" ? new Date(targetDate) : targetDate;
+  }, [targetDate]);
+
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => getTimeLeft(target));
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function TimeRemaining({
   ];
 
   return (
-    <div className="w-full rounded-md border border-border bg-surface p-6 shadow-lg">
+    <div className="w-full rounded-2xl border border-border bg-surface p-6 shadow-lg">
       <h2 className="mb-4 text-xs font-semibold tracking-widest">
         {title.toUpperCase()}
       </h2>
@@ -56,12 +59,12 @@ export default function TimeRemaining({
         {units.map((unit) => (
           <div
             key={unit.label}
-            className="rounded-xl border border-white/5 bg-white/[0.03] py-4 text-center"
+            className="rounded-xl border border-white/5 bg-bg py-2 text-center"
           >
-            <p className="font-mono text-3xl font-bold text-white">
+            <p className="font-mono font-bold text-white text-xl">
               {pad(unit.value)}
             </p>
-            <p className="mt-1 text-[10px] tracking-widest text-slate-500">
+            <p className="mt-1 text-[9px] tracking-widest text-slate-500">
               {unit.label}
             </p>
           </div>

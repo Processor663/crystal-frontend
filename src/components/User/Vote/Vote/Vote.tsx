@@ -1,5 +1,8 @@
-import VotingStatusCard from "../../VotingStatusCard/VotingStatusCard";
+// Components
+import VotingStatusCard from "../VotingStatusCard/VotingStatusCard";
 import CastVote from "../CastVote/CastVote";
+import TimeRemaining from "../TimeRemaining/TimeRemaining";
+import VoterTurnout from "../VoteTurnOut/VoteTurnOut";
 
 const Vote = () => {
   return (
@@ -12,7 +15,10 @@ const Vote = () => {
           </div>
         </div>
 
-        <div className="lg:w-[25%] bg-gray-500">2</div>
+        <div className="lg:w-[25%] bg-gray-500">
+          {/* <TimeRemaining /> */}
+          {/* <VoterTurnout /> */}
+        </div>
       </div>
     </>
   );

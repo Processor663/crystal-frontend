@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import App_Drawer from "@/components/shared/Drawer/Drawer";
 
 import { motion } from "framer-motion";
@@ -52,9 +52,9 @@ const NavBar = () => {
               Voting Open
             </div>
             {!pathname.includes("vote") && (
-              <span className="hidden lg:block bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1">
+              <Link to="vote" className="hidden lg:block bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1">
                 Cast Your Vote
-              </span>
+              </Link>
             )}
           </div>
         </div>

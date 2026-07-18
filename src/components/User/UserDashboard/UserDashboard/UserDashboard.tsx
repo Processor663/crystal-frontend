@@ -1,11 +1,8 @@
 //Components
-import ElectionStatsRow from "@/components/shared/StatCard/StatCard";
+import ElectionStatsRow from "@/components/User/UserDashboard/StatCard/StatCard";
 import LeadingCandidatesTable from "../LeadingCandidatesTable/LeadingCandidatesTable";
 import LeadingCandidatesProgress from "../LeadingCandidatesProgress/LeadingCandidatesProgress";
-import VotingStatusCard from "../VotingStatusCard/VotingStatusCard";
-
-
-
+import VotingStatusCard from "../../Vote/VotingStatusCard/VotingStatusCard";
 
 function UserDashboard() {
   return (

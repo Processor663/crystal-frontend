@@ -21,7 +21,7 @@ export interface VotePosition {
 
 interface CastVoteProps {
   positions?: VotePosition[];
-  onSubmit?: (selections: Record<string, string>) => void;
+//   onSubmit?: (selections: Record<string, string>) => void;
 }
 
 const defaultPositions: VotePosition[] = [
@@ -113,7 +113,6 @@ const defaultPositions: VotePosition[] = [
 
 export default function CastVote({
   positions = defaultPositions,
-  onSubmit,
 }: CastVoteProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
 
@@ -127,7 +126,7 @@ export default function CastVote({
 
   const handleSubmit = () => {
     if (!allSelected) return;
-    onSubmit?.(selections);
+//    (selections); tthis contains the value of the selected candidates for voting
   };
 
   return (

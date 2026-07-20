@@ -33,9 +33,9 @@ const NavBar = () => {
                     }}
                   >
                     <p className="text-text">
-                      {" "}
+                  
                    
-                    This is amadi miracle, i built 
+                    SUG Election 2025
                     </p>
                   </motion.div>
                 </div>

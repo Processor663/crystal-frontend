@@ -29,5 +29,5 @@
     "noFallthroughCasesInSwitch": true
   },
 
-  "include": ["src", "src/components/types/navItem.types.ts"]
+  "include": ["src", "src/types/navItem.types.ts"]
 }

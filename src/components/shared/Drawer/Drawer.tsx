@@ -5,14 +5,19 @@ import { Button, Drawer, ConfigProvider, theme } from "antd";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { PiSignOutThin } from "react-icons/pi";
 
+// Object
+import { navItems } from "@/constants/navItems";
+
 //components
 import SideItem from "../SideBar/SideBarItem/SideBarItem";
 // import SideBar from "../SideBar/SideBar/SideBar";
 
-// Object
-import { navItems } from "@/components/layouts/userSideBarLayout/userSideBarLayout";
+//Custom Hooks
+import { useLogout } from "@/hooks/useLogout";
 
 const App_Drawer: React.FC = () => {
+  const logout = useLogout();
+
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -76,14 +81,13 @@ const App_Drawer: React.FC = () => {
           }}
         >
           <div className="border border-border pb-50">
-            <SideItem
-              navItems={navItems}
-              onClose={onClose}
-            />
+            <SideItem navItems={navItems} onClose={onClose} />
           </div>
           <div className="flex gap-1 text-text items-center my-8 pl-3  transition-transform duration-200 hover:scale-105">
             <PiSignOutThin size="25" className="text-amber-500" />
-            <small className="text-amber-500 text-[.8rem]">Sign out</small>
+            <button className="text-amber text-xs" onClick={logout}>
+              Sign out
+            </button>
           </div>
 
           <p className="flex gap-1  items-center pt-0 pl-3 ">

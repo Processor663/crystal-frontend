@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 // Types
-import type { SideItemProps } from "@/components/types/navItem.types";
+import type { SideItemProps } from "@/types/navItem.types";
 
 const SideItem = ({ navItems, onClose }: SideItemProps) => {
   console.log(navItems);

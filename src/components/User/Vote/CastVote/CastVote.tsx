@@ -189,7 +189,7 @@ export default function CastVote({
                             className="flex w-max"
                             animate={{ x: ["30%", "-100%"] }}
                             transition={{
-                              duration: 15,
+                              duration: 25,
                               repeat: Infinity,
                               repeatType: "loop",
                               ease: "linear",

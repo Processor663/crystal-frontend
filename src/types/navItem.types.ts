@@ -13,4 +13,5 @@ export interface SideItemProps {
 
 export interface SideBarProps {
   navItems: NavItemProps[];
+  onClose: () => void;
 }

@@ -2,12 +2,17 @@ import Logo from "../../Logo/Logo";
 import SideItem from "../SideBarItem/SideBarItem";
 
 // types
-import type { SideBarProps } from "@/components/types/navItem.types";
+import type { SideBarProps } from "@/types/navItem.types";
 
 //Icons
 import { PiSignOutThin } from "react-icons/pi";
 
+//Custom Hooks
+import { useLogout } from "@/hooks/useLogout";
+
 const SideBar = (props: SideBarProps) => {
+const logout  = useLogout();
+
   return (
     <div>
       <div className="my-10">
@@ -24,7 +29,9 @@ const SideBar = (props: SideBarProps) => {
           <small className="text-center">Registered Voter</small>
           <div className="flex gap-1 text-text items-center mt-3  transition-transform duration-200 hover:scale-105">
             <PiSignOutThin size="20" className="text-amber" />
-            <small className="text-amber">Sign out</small>
+            <button className="text-amber text-xs" onClick={logout}>
+              Sign out
+            </button>
           </div>
         </div>
       </div>

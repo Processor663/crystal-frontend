@@ -52,14 +52,6 @@ export const Wrapper = styled.div`
     background: transparent;
   }
 
-  .cv-password-label-row {
-    /* background-color: red; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    /* width: 100%; */
-  }
-
   .cv-row-between {
     display: flex;
     align-items: center;

@@ -9,7 +9,7 @@ function Logo() {
           <BsStar size="20" className="text-text"/>
         </span>
         <p className="text-text font-serif tracking-[-0.3px] text-[1.25rem]">CrystalVote</p>
-        <p className=" font-mono">Secure Election Platform</p>
+        <p className=" font-mono text-center">Secure Election Platform</p>
       </div>
     </>
   );

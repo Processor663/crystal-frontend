@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button as AntButton } from "antd";
 import { CiCamera } from "react-icons/ci";
 
+//Toasify
+import { toast } from "react-toastify";
+
 export interface UserProfile {
   fullName: string;
   email: string;
   phone: string;
   role: string;
-  nin: string; 
+  nin: string;
   avatarInitials: string;
 }
 
@@ -20,9 +23,6 @@ interface PasswordFormValues {
 
 interface SettingsPageProps {
   profile?: UserProfile;
-  onSaveProfile?: (profile: UserProfile) => void;
-  onChangePassword?: (currentPassword: string, newPassword: string) => void;
-
   onUploadAvatar?: (file: File) => void;
 }
 
@@ -35,86 +35,90 @@ const defaultProfile: UserProfile = {
   avatarInitials: "AO",
 };
 
-
-
-function Field({
-  label,
-  value,
-  onChange,
-  disabled,
-  type = "text",
-}: {
-  label: string;
-  value: string;
-  onChange?: (v: string) => void;
-  disabled?: boolean;
-  type?: string;
-}) {
-
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm text-slate-400">{label}</span>
-      <input
-        type={type}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange?.(e.target.value)}
-        className={`w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-slate-600 focus:border-[#7C6AF4]/50 ${
-          disabled ? "cursor-not-allowed opacity-50" : ""
-        }`}
-      />
-    </label>
-  );
-}
+// function Field({
+//   label,
+//   value,
+//   onChange,
+//   disabled,
+//   type = "text",
+// }: {
+//   label: string;
+//   value: string;
+//   onChange?: (v: string) => void;
+//   disabled?: boolean;
+//   type?: string;
+// }) {
+//   return (
+//     <label className="block">
+//       <span className="mb-1.5 block text-sm text-slate-400">{label}</span>
+//       <input
+//         type={type}
+//         value={value}
+//         disabled={disabled}
+//         onChange={(e) => onChange?.(e.target.value)}
+//         className={`w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-slate-600 focus:border-[#7C6AF4]/50 ${
+//           disabled ? "cursor-not-allowed opacity-50" : ""
+//         }`}
+//       />
+//     </label>
+//   );
+// }
 
 export default function SettingsPage({
   profile = defaultProfile,
-  onSaveProfile,
   onChangePassword,
   onUploadAvatar,
 }: SettingsPageProps) {
   const [formState, setFormState] = useState<UserProfile>(profile);
-  const [showPasswordPanel, setShowPasswordPanel] = useState(true);
+  const [showPasswordPanel, setShowPasswordPanel] = useState(false);
   const [passwordForm] = Form.useForm<PasswordFormValues>();
 
-  const updateField = (key: keyof UserProfile) => (value: string) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
-  };
+  // const updateField = (key: keyof UserProfile) => (value: string) => {
+  //   setFormState((prev) => ({ ...prev, [key]: value }));
+  // };
 
-  const handleSaveProfile = () => {
-    onSaveProfile?.(formState);
-  };
+  // const handleSaveProfile = () => {
+  //   onSaveProfile?.(formState);
+  // };
 
   const handleAvatarClick = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (file) onUploadAvatar?.(file);
-    };
-    input.click();
+    // upload image Logic goes here
   };
 
+//it will come from tantack
+              const   isLoading = true
+
   const handlePasswordSubmit = (values: PasswordFormValues) => {
-    onChangePassword?.(values.oldPassword, values.newPassword);
-    passwordForm.resetFields();
-    setShowPasswordPanel(false);
+  
+     try {
+       // handle password logic goes here
+      
+       toast.success("Password Changed");
+     } catch (error) {
+      console.log(error)
+       toast.error("Something went wrong!");
+     } finally {
+       passwordForm.resetFields();
+       setShowPasswordPanel(false);
+     }
+   
   };
+
+  //Navigate
   const navigate = useNavigate();
 
   return (
-    <div className="w-full rounded-2xl border border-white/5 bg-[#0D0F14] shadow-lg">
-      <div className="border-b border-white/5 p-6">
+    <div className="w-full bg-surface shadow-lg">
+      <div className="p-6">
         <h1 className="text-xl font-bold text-white">Settings</h1>
         <p className="text-sm text-slate-400">
           Manage your profile and account preferences
         </p>
       </div>
 
-      <div className="space-y-8 p-6">
+      <div className="space-y-8 p-6 border border-border rounded-2xl">
         {/* Profile section */}
-        <div className="space-y-6">
+        <div className="space-y-6 ">
           <h2 className="text-base font-bold text-white">Profile</h2>
 
           <div className="flex items-center gap-4">
@@ -140,80 +144,42 @@ export default function SettingsPage({
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field
-              label="Full name"
-              value={formState.fullName}
-              onChange={updateField("fullName")}
-            />
-            <Field
-              label="Email address"
-              value={formState.email}
-              onChange={updateField("email")}
-              type="email"
-            />
-            <Field
-              label="Phone number"
-              value={formState.phone}
-              onChange={updateField("phone")}
-            />
-            <Field label="NIN" value={formState.nin} disabled />
+            <div className="border border-border rounded-2xl bg-bg p-3">
+              {formState.fullName}
+            </div>
+            <div className="border border-border rounded-2xl bg-bg p-3">
+              {formState.email}
+            </div>
+            <div className="border border-border rounded-2xl bg-bg p-3">
+              {formState.phone}
+            </div>
+            <div className="border border-border rounded-2xl bg-bg p-3">
+              {formState.nin}
+            </div>
           </div>
-
-          <p className="text-sm text-slate-400">
-            NIN and role assignment are verified fields and can&apos;t be edited
-            here. Contact support if these are incorrect.
-          </p>
-
-          <button
-            type="button"
-            onClick={handleSaveProfile}
-            className="rounded-xl bg-[#7C6AF4] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#6D5AE0]"
-          >
-            Save changes
-          </button>
         </div>
 
-        <div className="h-px w-full bg-white/5" />
-
         {/* Password section */}
-        <div>
+        <div className="mt-15">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-base font-bold text-white">Change password</h2>
-            {!showPasswordPanel && (
-              <button
-                type="button"
-                onClick={() => setShowPasswordPanel(true)}
-                className="rounded-xl border border-[#7C6AF4]/40 px-4 py-2 text-sm font-semibold text-[#A78BFA] hover:bg-[#7C6AF4]/10"
-              >
-                Change password
-              </button>
-            )}
+            <p className="text-sm text-text">Change password</p>
+
+            <button
+              type="button"
+              onClick={() => setShowPasswordPanel((prev) => !prev)}
+              className="text-xs rounded-xl border border-accent/40 px-4 py-2   text-accent hover:bg-accent/10"
+            >
+              {showPasswordPanel ? "Cancel" : "Change password"}
+            </button>
           </div>
 
           {showPasswordPanel && (
-            <div className="rounded-2xl border border-white/5 p-6">
-              <div className="mb-6 flex items-center justify-between">
-                <p className="text-sm text-slate-400">
-                  Update your password to keep your account secure
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    passwordForm.resetFields();
-                    setShowPasswordPanel(false);
-                  }}
-                  className="rounded-lg border border-white/10 px-4 py-1.5 text-sm text-slate-300 hover:bg-white/5"
-                >
-                  Cancel
-                </button>
-              </div>
-
+            <div className="rounded-2xl md:border border-border p-6">
               <Form
                 form={passwordForm}
                 layout="vertical"
                 requiredMark={false}
                 onFinish={handlePasswordSubmit}
-                className="max-w-sm crystal-password-form"
               >
                 <Form.Item
                   label={
@@ -244,17 +210,10 @@ export default function SettingsPage({
                     {
                       validator: (_, value: string) => {
                         if (!value) return Promise.resolve();
-                        const longEnough = value.length >= 15;
-                        const hasNumber = /\d/.test(value);
-                        const hasLower = /[a-z]/.test(value);
-                        const meetsShortRule =
-                          value.length >= 8 && hasNumber && hasLower;
-                        if (longEnough || meetsShortRule)
-                          return Promise.resolve();
+                        const longEnough = value.length >= 8;
+                        if (longEnough) return Promise.resolve();
                         return Promise.reject(
-                          new Error(
-                            "Use at least 15 characters, or 8+ with a number and lowercase letter",
-                          ),
+                          new Error("Use at least 8 characters"),
                         );
                       },
                     },
@@ -304,11 +263,12 @@ export default function SettingsPage({
                       fontWeight: 700,
                       height: 40,
                     }}
+                    loading={isLoading}
                   >
                     Update password
                   </AntButton>
-                    <button onClick={() => navigate("../forgot-password")}
-                  
+                  <button
+                    onClick={() => navigate("../forgot-password")}
                     className="text-sm font-medium text-[#A78BFA] hover:underline"
                   >
                     I forgot my password

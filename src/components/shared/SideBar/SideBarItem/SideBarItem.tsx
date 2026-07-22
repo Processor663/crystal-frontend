@@ -6,7 +6,7 @@ import type { SideItemProps } from "@/types/navItem.types";
 const SideItem = ({ navItems, onClose }: SideItemProps) => {
   console.log(navItems);
   return (
-    <div className=" lg:border-border lg:border border-l-0 py-5 pb-10 lg:pb-0">
+    <div className=" lg:border-border lg:border border-l-0 py-5 pb-10 lg:pb-0 ">
       {navItems.map(({ desc, path, icon: Icon }) => (
         <NavLink key={desc} to={path} end={path === ""} onClick={onClose}>
           {({ isActive }) => (

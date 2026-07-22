@@ -12,9 +12,9 @@ const NavBar = () => {
           {pathname.includes("vote") ? "Cast Your Vote" : "Dashboard"}
         </h1>
 
-        <div className="flex justify-between align-center">
+        <div className=" flex justify-between align-center">
           {/* Mobile Navbar */}
-          <div className="lg:hidden">
+          <div className=" lg:hidden">
             <App_Drawer />
           </div>
           <div className="">

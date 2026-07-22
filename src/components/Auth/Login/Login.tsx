@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Form, Input, Checkbox, Button, ConfigProvider, theme } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 
@@ -106,9 +106,9 @@ export default function SignInForm() {
                 </Form.Item>
 
                 <span className="cv-status-pill">
-                  <a className="cv-forgot-link" href="#">
+                  <Link className="cv-forgot-link" to="me/forgot-password">
                     Forgot password?
-                  </a>
+                  </Link>
                 </span>
               </div>
 
@@ -127,7 +127,7 @@ export default function SignInForm() {
 
             <p className="cv-signup-line">
               Don&apos;t have an account?{" "}
-              <a href="/register">Create one &rarr;</a>
+              <Link to="/register">Create one &rarr;</Link>
             </p>
           </div>
         </div>

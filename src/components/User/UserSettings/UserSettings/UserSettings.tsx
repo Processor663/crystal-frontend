@@ -7,8 +7,8 @@ export interface UserProfile {
   fullName: string;
   email: string;
   phone: string;
-  ward: string;
-  nin: string; // masked, e.g. "••••••4782"
+  role: string;
+  nin: string; 
   avatarInitials: string;
 }
 
@@ -30,7 +30,7 @@ const defaultProfile: UserProfile = {
   fullName: "Adebayo Ogundimu",
   email: "adebayo.o@example.com",
   phone: "+234 801 234 5678",
-  ward: "Lagos Mainland · Ward 07",
+  role: "Candidate",
   nin: "••••••4782",
   avatarInitials: "AO",
 };
@@ -135,7 +135,7 @@ export default function SettingsPage({
               <p className="text-base font-bold text-white">
                 {formState.fullName}
               </p>
-              <p className="text-sm text-slate-400">{formState.ward}</p>
+              <p className="text-sm text-slate-400">{formState.role}</p>
             </div>
           </div>
 
@@ -160,7 +160,7 @@ export default function SettingsPage({
           </div>
 
           <p className="text-sm text-slate-400">
-            NIN and ward assignment are verified fields and can&apos;t be edited
+            NIN and role assignment are verified fields and can&apos;t be edited
             here. Contact support if these are incorrect.
           </p>
 

@@ -8,6 +8,9 @@ import { Wrapper } from "./Login.styles";
 //components
 import Logo from "@/components/shared/Logo/Logo";
 
+//Toasify
+import { toast } from "react-toastify";
+
 interface SignInFormValues {
   identifier: string;
   password: string;
@@ -19,12 +22,22 @@ export default function SignInForm() {
 
   const navigate = useNavigate();
 
+  // This loading will be coming from tanstack isPending
+const isLoading = false
+
   const handleFinish = (values: SignInFormValues) => {
     // Wire this up to your auth call (e.g. Better-Auth sign-in)
-    if (values) {
-      navigate("me");
+
+    try {
+      if (values) {
+        navigate("me");
+      }
+      toast.success("Login successful!");
+      console.log("Sign in submitted:", values);
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log("Error", error);
     }
-    console.log("Sign in submitted:", values);
   };
   return (
     <ConfigProvider
@@ -113,7 +126,12 @@ export default function SignInForm() {
               </div>
 
               <Form.Item className="cv-submit-item">
-                <Button htmlType="submit" block icon={<ArrowRightOutlined />}>
+                <Button
+                  htmlType="submit"
+                  loading={isLoading}
+                  block
+                  icon={<ArrowRightOutlined />}
+                >
                   Sign In
                 </Button>
               </Form.Item>

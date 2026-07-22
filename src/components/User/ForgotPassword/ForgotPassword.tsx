@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //Icons
 import { GoLock } from "react-icons/go";
@@ -7,6 +6,9 @@ import { GoLock } from "react-icons/go";
 //ANT Design
 import { Form, Input, Button as AntButton } from "antd";
 import { Wrapper } from "./forgotPassword.style";
+
+//Toasify
+import { toast } from "react-toastify";
 
 interface ForgotPasswordValues {
   email: string;
@@ -22,20 +24,20 @@ const loading = false;
 
 export default function ForgotPassword() {
   const [form] = Form.useForm<ForgotPasswordValues>();
-  const [sentEmail, setSentEmail] = useState("");
 
   const handleFinish = async (values: ForgotPasswordValues) => {
     //  Logic for forgot-password goes here
     try {
-      setSentEmail(values.email);
+      toast.success(`An email has been sent to ${values.email}`);
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong!");
     }
   };
   const navigate = useNavigate();
   return (
     <Wrapper>
-      <div className="flex w-full items-center justify-center px-2 bg-accent">
+      <div className="flex w-full h-[calc(100dvh-32px)] items-center justify-center px-2">
         <div className="app-container w-full max-w-md md:border md:border-border rounded-2xl p-8 shadow-lg">
           <div className="text-center flex flex-col justify-center items-center ">
             <span className="mb-6 flex justify-center items-center h-11 w-11  rounded-2xl bg-accent">

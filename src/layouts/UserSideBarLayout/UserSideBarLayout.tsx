@@ -23,7 +23,7 @@ function UserSideBarLayout() {
         <div className={`${sideBarHidden}`}>
           <SideBar navItems={navItems} />
         </div>
-        <div className="w-full  bg-amber md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 min-h-dvh lg:overflow-y-auto">
+        <div className="w-full min-h-dvh md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:h-dvh lg:overflow-y-auto">
           <div className={`${navHidden}`}>
             <NavBar />
           </div>

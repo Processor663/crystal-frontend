@@ -93,14 +93,15 @@ export default function SettingsPage({
      try {
        // handle password logic goes here
       
-       toast.success("Password Changed");
+       toast.success("Password changed successfully!");
+         passwordForm.resetFields();
+         setShowPasswordPanel(false);
      } catch (error) {
       console.log(error)
        toast.error("Something went wrong!");
-     } finally {
-       passwordForm.resetFields();
-       setShowPasswordPanel(false);
-     }
+     } 
+     
+     
    
   };
 

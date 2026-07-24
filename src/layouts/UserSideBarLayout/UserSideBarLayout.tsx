@@ -20,10 +20,10 @@ function UserSideBarLayout() {
   return (
     <>
       <div className="flex overflow-hidden">
-        <div className={`${sideBarHidden}`}>
+        <div className={`${sideBarHidden} self-start pb-5`}>
           <SideBar navItems={navItems} />
         </div>
-        <div className="w-full min-h-dvh md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:h-dvh lg:overflow-y-auto">
+        <div className="w-full md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:overflow-y-auto">
           <div className={`${navHidden}`}>
             <NavBar />
           </div>

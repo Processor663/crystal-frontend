@@ -41,7 +41,6 @@ export default function SettingsPage({
   profile = defaultProfile,
 }: SettingsPageProps) {
   const [formState] = useState<UserProfile>(profile);
-  const [showPasswordPanel, setShowPasswordPanel] = useState(false);
   const [passwordForm] = Form.useForm<PasswordFormValues>();
 
   const handleAvatarClick = () => {
@@ -58,7 +57,6 @@ export default function SettingsPage({
 
       toast.success("Password changed successfully!");
       passwordForm.resetFields();
-      setShowPasswordPanel(false);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong!");
@@ -105,17 +103,17 @@ export default function SettingsPage({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 text-xs">
-              <div className="border border-border rounded-2xl bg-bg p-3 pl-4">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 text-sm">
+              <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
                 {formState.fullName}
               </div>
-              <div className="border border-border rounded-2xl bg-bg p-3 pl-4">
+              <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
                 {formState.email}
               </div>
-              <div className="border border-border rounded-2xl bg-bg p-3 pl-4">
+              <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
                 {formState.phone}
               </div>
-              <div className="border border-border rounded-2xl bg-bg p-3 pl-4">
+              <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
                 {formState.nin}
               </div>
             </div>
@@ -125,132 +123,121 @@ export default function SettingsPage({
           <div className="mt-15">
             <div className="mb-5 flex items-center justify-between">
               <p className="text-sm text-text">Change password</p>
-
-              <button
-                type="button"
-                onClick={() => setShowPasswordPanel((prev) => !prev)}
-                className="text-xs rounded-xl border border-accent/40 px-4 py-2   text-accent hover:bg-accent/10"
-              >
-                {showPasswordPanel ? "Cancel" : "Change password"}
-              </button>
             </div>
-
-            {showPasswordPanel && (
-              <div className="rounded-2xl md:border border-border md:p-6">
-                <Form
-                  form={passwordForm}
-                  layout="vertical"
-                  requiredMark={false}
-                  onFinish={handlePasswordSubmit}
+            <div className="rounded-2xl md:border border-border md:p-6">
+              <Form
+                form={passwordForm}
+                layout="vertical"
+                requiredMark={false}
+                onFinish={handlePasswordSubmit}
+              >
+                <Form.Item
+                  label={
+                    <span className="text-sm font-semibold text-white">
+                      Old password
+                    </span>
+                  }
+                  name="oldPassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your current password",
+                    },
+                  ]}
                 >
-                  <Form.Item
-                    label={
-                      <span className="text-sm font-semibold text-white">
-                        Old password
-                      </span>
-                    }
-                    name="oldPassword"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your current password",
+                  <Input.Password
+                    autoComplete="current-password"
+                    className="app-form-input"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label={
+                    <span className="text-sm font-semibold text-white">
+                      New password
+                    </span>
+                  }
+                  name="newPassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter a new password",
+                    },
+                    {
+                      validator: (_, value: string) => {
+                        if (!value) return Promise.resolve();
+                        const longEnough = value.length >= 8;
+                        if (longEnough) return Promise.resolve();
+                        return Promise.reject(
+                          new Error("Use at least 8 characters"),
+                        );
                       },
-                    ]}
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    autoComplete="new-password"
+                    className="app-form-input"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label={
+                    <span className="text-sm font-semibold text-white">
+                      Confirm new password
+                    </span>
+                  }
+                  name="confirmPassword"
+                  dependencies={["newPassword"]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please confirm your new password",
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("newPassword") === value)
+                          return Promise.resolve();
+                        return Promise.reject(
+                          new Error("Passwords don't match"),
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    autoComplete="new-password"
+                    className="app-form-input"
+                  />
+                </Form.Item>
+
+                <p className="mb-5 text-xs text-slate-500">
+                  Make sure it's at least 8 characters.
+                </p>
+
+                <div className="flex items-center gap-5">
+                  <AntButton
+                    type="primary"
+                    htmlType="submit"
+                    style={{
+                      background: "#7C6AF4",
+                      borderColor: "#7C6AF4",
+                      fontWeight: 700,
+                      height: 40,
+                    }}
+                    loading={isLoading}
                   >
-                    <Input.Password
-                      autoComplete="current-password"
-                      className="app-form-input"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    label={
-                      <span className="text-sm font-semibold text-white">
-                        New password
-                      </span>
-                    }
-                    name="newPassword"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter a new password",
-                      },
-                      {
-                        validator: (_, value: string) => {
-                          if (!value) return Promise.resolve();
-                          const longEnough = value.length >= 8;
-                          if (longEnough) return Promise.resolve();
-                          return Promise.reject(
-                            new Error("Use at least 8 characters"),
-                          );
-                        },
-                      },
-                    ]}
+                    Update password
+                  </AntButton>
+                  <button
+                    onClick={() => navigate("../forgot-password")}
+                    className="text-sm font-medium text-[#A78BFA] hover:underline"
                   >
-                    <Input.Password
-                      autoComplete="new-password"
-                      className="app-form-input"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    label={
-                      <span className="text-sm font-semibold text-white">
-                        Confirm new password
-                      </span>
-                    }
-                    name="confirmPassword"
-                    dependencies={["newPassword"]}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please confirm your new password",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue("newPassword") === value)
-                            return Promise.resolve();
-                          return Promise.reject(
-                            new Error("Passwords don't match"),
-                          );
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input.Password
-                      autoComplete="new-password"
-                      className="app-form-input"
-                    />
-                  </Form.Item>
-
-                  <p className="mb-5 text-xs text-slate-500">
-                    Make sure it's at least 8 characters.
-                  </p>
-
-                  <div className="flex items-center gap-5">
-                    <AntButton
-                      type="primary"
-                      htmlType="submit"
-                      style={{
-                        background: "#7C6AF4",
-                        borderColor: "#7C6AF4",
-                        fontWeight: 700,
-                        height: 40,
-                      }}
-                      loading={isLoading}
-                    >
-                      Update password
-                    </AntButton>
-                    <button
-                      onClick={() => navigate("../forgot-password")}
-                      className="text-sm font-medium text-[#A78BFA] hover:underline"
-                    >
-                      I forgot my password
-                    </button>
-                  </div>
-                </Form>
-              </div>
-            )}
+                    I forgot my password
+                  </button>
+                </div>
+              </Form>
+            </div>
           </div>
         </div>
       </div>

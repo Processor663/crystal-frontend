@@ -18,7 +18,15 @@ export const Wrapper = styled.div`
   .app-form-input:hover,
   .app-form-input:focus {
     border-color: #2a2f42;
-    background: #0d0f14 !important;
+    background: #1c2030 !important;
     color: #fff !important;
+  }
+
+  .ant-input-password-icon {
+    color: #fff;
+  }
+
+  .ant-input-password-icon:hover {
+    color: #9a8cff;
   }
 `;

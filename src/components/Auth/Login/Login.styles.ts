@@ -115,6 +115,14 @@ export const Wrapper = styled.div`
     margin-left: 0.2em;
   }
 
+  .ant-input-password-icon {
+    color: #fff;
+  }
+
+  .ant-input-password-icon:hover {
+    color: #9a8cff;
+  }
+
   @media screen and (max-width: 480px) {
     .cv-signin-page {
       padding: 0 1em;

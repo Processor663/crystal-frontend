@@ -109,7 +109,7 @@ const isLoading = false
               >
                 <Input.Password
                   placeholder="Enter your password"
-                  iconRender={(visible) => (visible ? "HIDE" : "SHOW")}
+                  // iconRender={(visible) => (visible ? "HIDE" : "SHOW")}
                 />
               </Form.Item>
 

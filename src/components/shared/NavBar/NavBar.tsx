@@ -8,8 +8,12 @@ const NavBar = () => {
   return (
     <>
       <div className="mt-2.5 lg:mt-0 lg:py-4">
-        <h1 className="text-text hidden lg:block ">
-          {pathname.includes("vote") ? "Cast Your Vote" : "Dashboard"}
+        <h1 className="text-text hidden lg:block">
+          {pathname.includes("vote")
+            ? "Cast Your Vote"
+            : pathname.includes("live-score")
+              ? "Live Scores"
+              : "Dashboard"}
         </h1>
 
         <div className=" flex justify-between align-center">
@@ -32,11 +36,7 @@ const NavBar = () => {
                       ease: "linear",
                     }}
                   >
-                    <p className="text-text">
-                  
-                   
-                    SUG Election 2025
-                    </p>
+                    <p className="text-text">SUG Election 2025</p>
                   </motion.div>
                 </div>
               </div>
@@ -54,7 +54,7 @@ const NavBar = () => {
             {!pathname.includes("vote") && (
               <Link
                 to="vote"
-                className="hidden lg:block bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1"
+                className="hidden lg:block hover:bg-transparent hover:border border-accent bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1"
               >
                 Cast Your Vote
               </Link>

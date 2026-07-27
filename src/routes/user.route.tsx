@@ -11,6 +11,8 @@ const UserSettingsPage = lazy(
 const ForgotPasswordPage = lazy(
   () => import("../pages/ForgotPasswordPage/ForgotPasswordPage"),
 );
+const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+const LiveScoresPage = lazy(() => import("@/pages/userPage/LiveScoresPage"));
 
 //Components
 import App_Spinner from "../components/shared/Spinner/Spinner";
@@ -33,10 +35,13 @@ function AppRoute() {
             <Route path="me" element={<UserSideBarLayout />}>
               <Route index element={<UserPage />} />
               <Route path="vote" element={<CastVotePage />} />
+              <Route path="live-scores" element={<LiveScoresPage />} />
               <Route path="settings" element={<UserSettingsPage />} />
               <Route path="forgot-password" element={<ForgotPasswordPage />} />
             </Route>
           </Route>
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </>

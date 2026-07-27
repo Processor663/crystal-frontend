@@ -12,22 +12,24 @@ function UserSideBarLayout() {
   const navHidden =
     pathname.includes("settings") || pathname.includes("forgot-password")
       ? "hidden bg-bg sticky top-0 z-1000"
-      : "bg-bg sticky top-0 z-1000";
+      : "sticky top-0 z-1000";
 
   const sideBarHidden = pathname.includes("forgot-password")
     ? "hidden lg:block w-[18%]  bg-surface lg:hidden"
     : "hidden lg:block w-[18%]  bg-surface";
   return (
     <>
-      <div className="flex overflow-hidden">
-        <div className={`${sideBarHidden} self-start pb-5`}>
-          <SideBar navItems={navItems} />
-        </div>
-        <div className="w-full md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:overflow-y-auto">
-          <div className={`${navHidden}`}>
-            <NavBar />
+      <div className="flex justify-center">
+        <div className="flex justify-center overflow-hidden w-full max-w-330">
+          <div className={`${sideBarHidden} self-start pb-5`}>
+            <SideBar navItems={navItems} />
           </div>
-          <Outlet />
+          <div className="w-full md:flex-1 pb-8 p-2 lg:p-5 lg:pt-0 lg:overflow-y-auto">
+            <div className={`${navHidden}`}>
+              <NavBar />
+            </div>
+            <Outlet />
+          </div>
         </div>
       </div>
     </>

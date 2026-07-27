@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CiCircleCheck } from "react-icons/ci";
 
-import { motion } from "framer-motion";
 
 
 export interface VoteCandidate {
@@ -21,7 +20,7 @@ export interface VotePosition {
 
 interface CastVoteProps {
   positions?: VotePosition[];
-//   onSubmit?: (selections: Record<string, string>) => void;
+  //   onSubmit?: (selections: Record<string, string>) => void;
 }
 
 const defaultPositions: VotePosition[] = [
@@ -33,7 +32,8 @@ const defaultPositions: VotePosition[] = [
       {
         id: "cj",
         name: "Chukwuemeka James",
-        manifesto: "Renewed hope, With God all thing are possible. I am processor, i am software engineer. i am a data analyst",
+        manifesto:
+          "Renewed hope, With God all thing are possible. I am processor, i am software engineer. i am a data analyst. i am a winner, i cant never be a loser. i must make it in live.",
         initials: "CJ",
         color: "#7C6AF4",
       },
@@ -126,7 +126,7 @@ export default function CastVote({
 
   const handleSubmit = () => {
     if (!allSelected) return;
-//    (selections); tthis contains the value of the selected candidates for voting
+    //    (selections); this contains the value of the selected candidates for voting
   };
 
   return (
@@ -184,21 +184,10 @@ export default function CastVote({
                           {candidate.name}
                         </p>
 
-                        <div className="overflow-hidden whitespace-nowrap w-35 md:w-70">
-                          <motion.div
-                            className="flex w-max"
-                            animate={{ x: ["30%", "-100%"] }}
-                            transition={{
-                              duration: 25,
-                              repeat: Infinity,
-                              repeatType: "loop",
-                              ease: "linear",
-                            }}
-                          >
-                            <p className="truncate text-xs text-slate-400">
-                              {candidate.manifesto}
-                            </p>
-                          </motion.div>
+                        <div>
+                          <p className="text-xs text-slate-400">
+                            {candidate.manifesto}
+                          </p>
                         </div>
                       </div>
                       <span

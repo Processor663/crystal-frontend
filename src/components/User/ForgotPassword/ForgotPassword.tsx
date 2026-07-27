@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 //Icons
@@ -22,7 +23,7 @@ interface ForgotPasswordValues {
 //This should come from tanstack isPending state
 const loading = false;
 
-export default function ForgotPassword() {
+export default memo(function ForgotPassword() {
   const [form] = Form.useForm<ForgotPasswordValues>();
 
   const handleFinish = async (values: ForgotPasswordValues) => {
@@ -106,4 +107,4 @@ export default function ForgotPassword() {
       </div>
     </Wrapper>
   );
-}
+})

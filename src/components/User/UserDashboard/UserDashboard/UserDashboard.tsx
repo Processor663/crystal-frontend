@@ -1,3 +1,4 @@
+import { memo } from "react";
 //Components
 import ElectionStatsRow from "@/components/User/UserDashboard/StatCard/StatCard";
 import LeadingCandidatesTable from "../LeadingCandidatesTable/LeadingCandidatesTable";
@@ -28,4 +29,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default memo(UserDashboard);

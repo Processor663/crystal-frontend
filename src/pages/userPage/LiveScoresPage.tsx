@@ -1,4 +1,4 @@
-import LiveScores from "@/components/User/LiveScores/LiveScores";
+import LiveScores from "@/components/User/LiveScores/LiveScores/LiveScores";
 
 const LiveScoresPage = () => {
   return (

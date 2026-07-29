@@ -1,4 +1,11 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -14,7 +21,7 @@ export interface LeadingCandidateTableRow {
   votes: number;
   voteShare: number; // 0 - 100
   position: string;
-  color: string;
+
 }
 
 interface LeadingCandidatesTableProps {
@@ -28,7 +35,7 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 1093439,
     voteShare: 38.4,
     position: "SUG PRO",
-    color: "#7C6AF4",
+
   },
   {
     id: "fa",
@@ -36,7 +43,7 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 903228,
     voteShare: 31.7,
     position: "Vice-President",
-    color: "#2DD4BF",
+   
   },
   {
     id: "bo",
@@ -44,15 +51,15 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 539027,
     voteShare: 18.9,
     position: "Secretary",
-    color: "#F59E0B",
+
   },
   {
     id: "nk",
     name: "N. Kalu",
     votes: 313797,
     voteShare: 11.0,
-    position: "President",
-    color: "#EC4899",
+    position: "president",
+  
   },
 ];
 
@@ -160,10 +167,6 @@ const columns = [
     filterFn: "includesString",
     cell: (info) => (
       <div className="flex items-center gap-2.5">
-        <span
-          className="h-2 w-2 shrink-0 rounded-full"
-          style={{ backgroundColor: info.row.original.color }}
-        />
         <span className="text-sm text-slate-100">{info.getValue()}</span>
       </div>
     ),
@@ -188,18 +191,8 @@ const columns = [
     cell: (info) => (
       <span
         className="text-sm font-semibold"
-        style={{ color: info.row.original.color }}
       >
         {info.getValue().toFixed(1)}%
-      </span>
-    ),
-  }),
-  columnHelper.display({
-    id: "status",
-    header: "Status",
-    cell: () => (
-      <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400">
-        Leading
       </span>
     ),
   }),
@@ -208,8 +201,28 @@ const columns = [
 export default memo(function LeadingCandidatesTable({
   rows = defaultRows,
 }: LeadingCandidatesTableProps) {
+
+
+  // Immediate values — drive what's shown in the input/select, always instant.
+  const [searchInput, setSearchInput] = useState("");
+  const [positionInput, setPositionInput] = useState<string>("all");
+
+  // Transitioned values — drive actual table filtering, deprioritized so
+  // typing/clicking never blocks on a (potentially expensive) table re-render.
   const [searchText, setSearchText] = useState("");
   const [selectedPosition, setSelectedPosition] = useState<string>("all");
+
+  const [isPending, startTransition] = useTransition();
+
+  function handleSearchChange(value: string) {
+    setSearchInput(value);
+    startTransition(() => setSearchText(value));
+  }
+
+  function handlePositionChange(value: string) {
+    setPositionInput(value);
+    startTransition(() => setSelectedPosition(value));
+  }
 
   const positionOptions = useMemo(() => {
     const unique = Array.from(new Set(rows.map((r) => r.position)));
@@ -237,7 +250,7 @@ export default memo(function LeadingCandidatesTable({
 
   return (
     <div className="w-full h-full rounded-2xl border border-border bg-surface p-5 shadow-lg">
-      <h2 className="font-bold text-white">Candidate Results</h2>
+      <h2 className="font-bold text-white">Candidate Result</h2>
       <p className="mb-4 text-slate-400">
         {" "}
         Detailed election results for all candidates
@@ -257,30 +270,36 @@ export default memo(function LeadingCandidatesTable({
           </svg>
           <input
             type="text"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            value={searchInput}
+            onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search candidate..."
             className="w-full rounded-lg border border-border bg-black/20 py-1.5 pl-9 pr-3 text-sm text-slate-200 placeholder:text-slate-500 transition-colors focus:border-[#7C6AF4]/60 focus:outline-none focus:ring-1 focus:ring-[#7C6AF4]/40"
           />
         </div>
 
         <PositionFilter
-          value={selectedPosition}
-          onChange={setSelectedPosition}
+          value={positionInput}
+          onChange={handlePositionChange}
           options={positionOptions}
         />
+
+        {isPending && <span className="text-xs text-slate-500">Updating…</span>}
       </div>
 
-      <div className="overflow-y-auto max-h-dvh rounded-lg border border-border/60">
+      <div
+        className={`overflow-y-auto max-h-dvh rounded-lg border border-border/60 transition-opacity ${
+          isPending ? "opacity-60" : "opacity-100"
+        }`}
+      >
         <table className="w-full border-collapse text-left">
           <thead className="sticky top-0 z-10 bg-[#0F1116]">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b border-border text-xs uppercase tracking-wider text-slate-500"
+                className="border-b border-border text-[10px] uppercase tracking-wider text-slate-500"
               >
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="px-4 py-3 text-xs lg:text-xs">
+                  <th key={header.id} className="px-4 py-3 font-medium text-xs">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
@@ -304,8 +323,8 @@ export default memo(function LeadingCandidatesTable({
             {table.getRowModel().rows.map((row, index) => (
               <tr
                 key={row.id}
-                className={`border-b border-border/60 last:border-0 transition-colors hover:bg-white/[0.06] ${
-                  index % 2 === 0 ? "bg-white/[0.03]" : ""
+                className={`border-b border-border/60 last:border-0 transition-colors hover:bg-white/6 ${
+                  index % 2 === 0 ? "bg-white/3" : ""
                 }`}
               >
                 {row.getVisibleCells().map((cell) => (

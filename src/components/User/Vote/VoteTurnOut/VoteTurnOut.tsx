@@ -1,18 +1,20 @@
-interface VoterTurnoutProps {
-  votesCast: number;
-  registeredVoters: number;
-  targetPercent?: number;
-}
+// interface VoterTurnoutProps {
+//   votesCast: number;
+//   registeredVoters: number;
+//   targetPercent?: number;
+// }
+
+const votesCast = 1847491;
+const registeredVoters = 2491200;
+const targetPercent = 70;
+// const targetPercent = Number(((totalVote / registeredVoters) * 100).toFixed(1));
 
 function formatNumber(n: number) {
   return n.toLocaleString("en-US");
 }
 
-export default function VoterTurnout({
-  votesCast,
-  registeredVoters,
-  targetPercent = 70,
-}: VoterTurnoutProps) {
+export default function VoterTurnout()
+ {
   const turnoutPercent =
     registeredVoters > 0 ? (votesCast / registeredVoters) * 100 : 0;
   const displayPercent = Math.min(turnoutPercent, 100);
@@ -27,7 +29,7 @@ export default function VoterTurnout({
         <p className="text-4xl font-bold text-white">
           {turnoutPercent.toFixed(1)}%
         </p>
-        <p className="mt-1 text-sm text-slate-400">of registered voters</p>
+        <p className="mt-1 text-sm text-slate-400">Voter Participation Rate</p>
       </div>
 
       <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-white/5">

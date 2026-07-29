@@ -2,22 +2,28 @@ import { memo } from "react";
 import LeadingCandidatesProgress from "../../UserDashboard/LeadingCandidatesProgress/LeadingCandidatesProgress";
 import TimeRemaining from "../../Vote/TimeRemaining/TimeRemaining";
 import VoterTurnout from "../../Vote/VoteTurnOut/VoteTurnOut";
-import PresidentResultsCard from "../CandidateResult/CandidateResult";
+import ResultsCard from "../CandidateResult/CandidateResult";
+
+// This suppose to come from API
+const totalVote = 1847491;
+
 
 const LiveScores = () => {
   return (
-    <div className="lg:flex flex-row-reverse gap-5 mt-5">
-      <div className="lg:w-[30%]">
-        <TimeRemaining targetDate="2026-07-18T18:00:00" />
-        <VoterTurnout
-          votesCast={2847491}
-          registeredVoters={4491200}
-          targetPercent={70}
-        />
-        <LeadingCandidatesProgress />
+    <div className="mt-5">
+      <div>
+        <h2 className="text-white! mb-1!">Real-Time Results</h2>
+        <p className="mb-5">Total votes {totalVote}</p>
       </div>
-      <div className="flex-1">
-        <PresidentResultsCard />
+      <div className="lg:flex flex-row-reverse gap-5 mt-5">
+        <div className="lg:w-[30%] mb-5 lg:mb-0">
+          <TimeRemaining targetDate="2026-07-18T18:00:00" />
+          <VoterTurnout />
+          <LeadingCandidatesProgress />
+        </div>
+        <div className="flex-1">
+          <ResultsCard />
+        </div>
       </div>
     </div>
   );

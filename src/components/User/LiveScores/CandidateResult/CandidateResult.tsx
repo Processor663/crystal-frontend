@@ -1,12 +1,9 @@
-import  { useMemo } from "react";
-import { Card, Typography } from "antd";
+import { useMemo } from "react";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
-
-const { Title, Text } = Typography;
+import CandidateHorizontalBarChart from "../HorizonalBarChart/HorizonalBarChart";
 
 interface Candidate {
   name: string;
-  party: string;
   votes: number;
   percent: number;
   color: string;
@@ -15,56 +12,37 @@ interface Candidate {
 const candidates: Candidate[] = [
   {
     name: "John Daniel",
-    party: "Visionary squad",
     votes: 1213,
     percent: 42.7,
     color: "#22C55E",
   },
   {
     name: "Chioma Faith",
-    party: "Progressive team",
     votes: 894,
     percent: 31.5,
     color: "#3B82F6",
   },
   {
     name: "David Okafor",
-    party: "Unity alliance",
     votes: 478,
     percent: 16.8,
     color: "#F59E0B",
   },
   {
     name: "Blessing Uche",
-    party: "New generation",
     votes: 172,
     percent: 6.1,
     color: "#8B5CF6",
   },
-  { name: "Others", party: "", votes: 85, percent: 3.0, color: "#6B7280" },
 ];
 
 const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
-const pollingUnitsPercent = 87.5;
 
 interface DonutChartProps {
   data: Candidate[];
   centerValue: number;
 }
 
-/**
- * Donut chart built on recharts' Pie/Cell, with a dashed inner accent
- * ring and centered total overlaid on top (recharts doesn't do dashed
- * decorative rings natively, so that part stays a plain CSS overlay).
- *
- * Percent values are passed straight in as `value` and mapped once via
- * `useMemo` rather than mutated inside a render-time loop — that
- * mutation (a shared `cumulativePercent` reassigned inside `.map()`)
- * is what triggered the "Cannot reassign variable after render
- * completes" error in the previous version. React (and
- * eslint-plugin-react-compiler) requires render to be a pure function
- * with no shared-variable mutation across iterations.
- */
 function DonutChart({ data, centerValue }: DonutChartProps) {
   const size = 200;
   const innerRadius = 62;
@@ -116,62 +94,17 @@ function DonutChart({ data, centerValue }: DonutChartProps) {
   );
 }
 
-export default function PresidentResultsCard() {
+export default function ResultsCard() {
   return (
-    <Card
-      className=" !bg-[#0D0F14] !rounded-2xl"
-      style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-      styles={{ body: { padding: "24px" } }}
-    >
-      <Title level={4} className="!text-white !mb-1">
-        President
-      </Title>
-      <Text className="!text-gray-400 !text-sm block mb-5">
-        {totalVotes.toLocaleString()} votes counted, {pollingUnitsPercent}% of
-        polling units
-      </Text>
-
-      <div className="flex flex-col gap-4 mb-6">
-        {candidates.map((c, i) => (
-          <div
-            key={c.name}
-            className="pl-3"
-            style={
-              i === 0
-                ? { borderLeft: `2px solid ${c.color}` }
-                : { borderLeft: "2px solid transparent" }
-            }
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-white m-0">{c.name}</p>
-                {c.party && (
-                  <p className="text-xs text-gray-500 m-0">{c.party}</p>
-                )}
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-300">
-                  {c.votes.toLocaleString()}
-                </span>
-                <span
-                  className="text-sm font-medium"
-                  style={{ color: c.color }}
-                >
-                  {c.percent}%
-                </span>
-              </div>
-            </div>
-            <div className="w-full h-1.5 bg-white/10 rounded-full mt-2 overflow-hidden">
-              <div
-                className="h-full rounded-full"
-                style={{ width: `${c.percent}%`, backgroundColor: c.color }}
-              />
-            </div>
-          </div>
-        ))}
+    <div className="">
+      <div className="grid sm:grid-cols-2 gap-5">
+        <CandidateHorizontalBarChart />
+        <CandidateHorizontalBarChart />
+        <CandidateHorizontalBarChart />
+        <CandidateHorizontalBarChart />
       </div>
 
-      <div className="border-t border-white/10 pt-6 flex flex-col items-center gap-4">
+      <div className="border border-border mt-5 p-5 pt-6 flex flex-col items-center gap-4 rounded-2xl">
         <DonutChart data={candidates} centerValue={totalVotes} />
 
         <div className="flex flex-col gap-2 w-full">
@@ -194,6 +127,6 @@ export default function PresidentResultsCard() {
           ))}
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

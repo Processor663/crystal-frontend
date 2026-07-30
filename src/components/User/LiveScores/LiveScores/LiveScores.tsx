@@ -1,5 +1,4 @@
 import { memo } from "react";
-import LeadingCandidatesProgress from "../../UserDashboard/LeadingCandidatesProgress/LeadingCandidatesProgress";
 import TimeRemaining from "../../Vote/TimeRemaining/TimeRemaining";
 import VoterTurnout from "../../Vote/VoteTurnOut/VoteTurnOut";
 import ResultsCard, { DonutChartContainer } from "../CandidateResult/CandidateResult";

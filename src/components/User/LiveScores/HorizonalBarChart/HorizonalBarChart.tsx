@@ -27,12 +27,11 @@ const categories = [
     id: "president",
     name: "President",
     candidates: [
+      { name: "O Chukwuemeka", votes: 5213 },
+      { name: "Uche", votes: 4213 },
+
       { name: "Emma", votes: 5213 },
       { name: "Uche", votes: 4213 },
- 
-      { name: "Emma", votes: 5213 },
-      { name: "Uche", votes: 4213 },
- 
     ],
   },
   {
@@ -47,16 +46,32 @@ const categories = [
     id: "sug-pro",
     name: "SUG PRO",
     candidates: [
-      { name: "Mary", votes: 800 },
-      { name: "James", votes: 600 },
+      { name: "Mary Chukwuemeka", votes: 800 },
+      { name: "James Chukwuemeka", votes: 600 },
     ],
   },
   {
     id: "Treasurer",
     name: "Treasurer",
     candidates: [
-      { name: "Mary", votes: 1004 },
+      { name: "Mary Chukwuemeka", votes: 1004 },
       { name: "James", votes: 1 },
+    ],
+  },
+  {
+    id: "Vice-President",
+    name: "Vice-President",
+    candidates: [
+      { name: "Mary Chukwuemeka", votes: 1004 },
+      { name: "James Chukwuemeka", votes: 1 },
+    ],
+  },
+  {
+    id: "Assistant-Sec.Gen",
+    name: "Assistant-Sec.Gen",
+    candidates: [
+      { name: "Chukwuemeka Mary", votes: 1004 },
+      { name: "Chukwuemeka James", votes: 1 },
     ],
   },
 ];
@@ -70,15 +85,20 @@ export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
   const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP);
 
   return (
-    <div className="bg-surface py-5  border border-border rounded-2xl h-full">
-      <div className="flex flex-col mb-5 pl-4">
-        <div className="flex items-center gap-1">
-          <div className="bg-accent/20 py-1 px-2 rounded-sm">
-            <IoPersonOutline size={15} color="#FFF" />
+    <div className="bg-surface py-5  border border-border rounded-2xl h-full pl-3">
+      <div className="flex flex-col mb-5">
+        <div className="">
+          <div className="flex items-center gap-1">
+            <div className="bg-accent/20 py-1.5 px-3 rounded-sm">
+              <IoPersonOutline size={15} color="#FFF" />
+            </div>
+            <h3 className="text-text font-semibold ">{title}</h3>
           </div>
-          <h3 className="text-text font-semibold">{title}</h3>
+
+          <p className="text-slate-400 mt-1">
+            Total votes: {votes.toLocaleString()}
+          </p>
         </div>
-        <p className="text-slate-400">Total votes: {votes.toLocaleString()}</p>
       </div>
       <div style={{ width: "100%", height: chartHeight }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -94,8 +114,8 @@ export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
               dataKey="name"
               axisLine={false}
               // tickLine={false}
-              width={60}
-              tick={{ fill: "#8B87A8", fontSize: 13 }}
+              width="auto"
+              tick={{ fill: "#8B87A8", fontSize: 12 }}
             />
             <Bar
               dataKey="percent"
@@ -120,14 +140,31 @@ export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
 export default function CandidateHorizontalBarChart() {
   return (
     <>
-      {categories.map((category) => {
+      {
+      categories.map((category) => {
         const totalVotes = category.candidates.reduce(
           (sum, candidate) => sum + candidate.votes,
           0,
         );
 
+        //A function that shorten name
+        const formatName = (name: string) => {
+          const parts = name.trim().split(" ");
+
+          if (parts.length <= 1) return name;
+
+          const lastName = parts[parts.length - 1];
+          const initials = parts
+            .slice(0, -1)
+            .map((part) => `${part[0]}.`)
+            .join(" ");
+
+          return `${initials} ${lastName}`;
+        }
+
         const chartData = category.candidates.map((candidate) => ({
           ...candidate,
+          name: formatName(candidate.name),
           percent:
             totalVotes > 0
               ? Number(((candidate.votes / totalVotes) * 100).toFixed(1))

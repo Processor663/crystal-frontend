@@ -94,12 +94,9 @@ function DonutChart({ data, centerValue }: DonutChartProps) {
   );
 }
 
-export default function ResultsCard() {
+export function DonutChartContainer() {
   return (
-    <div className="">
-      <div className="grid md:grid-cols-2 gap-5">
-        <CandidateHorizontalBarChart />
-      </div>
+    <>
       <div className="border border-border mt-5 p-5 pt-6 flex flex-col items-center gap-4 rounded-2xl">
         <DonutChart data={candidates} centerValue={totalVotes} />
 
@@ -122,6 +119,16 @@ export default function ResultsCard() {
             </div>
           ))}
         </div>
+      </div>
+    </>
+  );
+}
+
+export default function ResultsCard() {
+  return (
+    <div className="">
+      <div className="grid md:grid-cols-2 gap-5">
+        <CandidateHorizontalBarChart />
       </div>
     </div>
   );

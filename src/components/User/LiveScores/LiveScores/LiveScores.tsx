@@ -2,7 +2,7 @@ import { memo } from "react";
 import LeadingCandidatesProgress from "../../UserDashboard/LeadingCandidatesProgress/LeadingCandidatesProgress";
 import TimeRemaining from "../../Vote/TimeRemaining/TimeRemaining";
 import VoterTurnout from "../../Vote/VoteTurnOut/VoteTurnOut";
-import ResultsCard from "../CandidateResult/CandidateResult";
+import ResultsCard, { DonutChartContainer } from "../CandidateResult/CandidateResult";
 
 // This suppose to come from API
 const totalVote = 1847491;
@@ -19,7 +19,8 @@ const LiveScores = () => {
         <div className="lg:w-[30%] mb-5 lg:mb-0">
           <TimeRemaining targetDate="2026-07-18T18:00:00" />
           <VoterTurnout />
-          <LeadingCandidatesProgress />
+          {/* <LeadingCandidatesProgress /> */}
+          <DonutChartContainer />
         </div>
         <div className="flex-1">
           <ResultsCard />

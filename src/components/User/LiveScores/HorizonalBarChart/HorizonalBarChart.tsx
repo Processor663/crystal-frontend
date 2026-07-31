@@ -19,6 +19,7 @@ type chartData = {
 interface HorizontalBarProps {
   title: string;
   votes: number;
+  yAxisWidth: number
   data: chartData[];
 }
 
@@ -27,7 +28,7 @@ const categories = [
     id: "president",
     name: "President",
     candidates: [
-      { name: "O Chukwuemeka", votes: 5213 },
+      { name: "O Chukwuemeka NwaChuwuemeka", votes: 5213 },
       { name: "Uche", votes: 4213 },
 
       { name: "Emma", votes: 5213 },
@@ -38,8 +39,8 @@ const categories = [
     id: "secretary",
     name: "Secretary",
     candidates: [
-      { name: "Mary", votes: 800 },
-      { name: "James", votes: 600 },
+      { name: "Mary Emenike", votes: 800 },
+      { name: "James jude", votes: 600 },
     ],
   },
   {
@@ -55,7 +56,7 @@ const categories = [
     name: "Treasurer",
     candidates: [
       { name: "Mary Chukwuemeka", votes: 1004 },
-      { name: "James", votes: 1 },
+      { name: "James Mike", votes: 1 },
     ],
   },
   {
@@ -81,23 +82,26 @@ const BAR_COLOR = "#8B7FF5";
 const BAR_HEIGHT = 25;
 const BAR_GAP = 6;
 
-export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
+export function HorizontalBarChart({ votes, title, yAxisWidth, data }: HorizontalBarProps) {
   const chartHeight = data.length * (BAR_HEIGHT + BAR_GAP);
 
   return (
     <div className="bg-surface py-5  border border-border rounded-2xl h-full pl-3">
       <div className="flex flex-col mb-5">
         <div className="">
-          <div className="flex items-center gap-1">
-            <div className="bg-accent/20 py-1.5 px-3 rounded-sm">
-              <IoPersonOutline size={15} color="#FFF" />
+          <div className="flex gap-1">
+            <div className="bg-accent/20 py-1.5 px-1 rounded-sm">
+              <IoPersonOutline size={18} color="#FFF" />
             </div>
-            <h3 className="text-text font-semibold ">{title}</h3>
+            <div className="leading-3.5 pl-2">
+              <h3 className="text-text font-semibold">
+                {title?.toUpperCase()}
+              </h3>
+              <p className="text-slate-400 mt-1">
+                Total votes: {votes.toLocaleString()}
+              </p>
+            </div>
           </div>
-
-          <p className="text-slate-400 mt-1">
-            Total votes: {votes.toLocaleString()}
-          </p>
         </div>
       </div>
       <div style={{ width: "100%", height: chartHeight }}>
@@ -106,16 +110,28 @@ export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
             data={data}
             layout="vertical"
             barCategoryGap={BAR_GAP}
-            margin={{ top: 0, right: 80, bottom: 0, left: 0 }}
+            margin={{ top: 0, right: 55, bottom: 0, left: 0 }}
           >
             <XAxis type="number" domain={[0, 100]} hide />
             <YAxis
               type="category"
               dataKey="name"
               axisLine={false}
-              // tickLine={false}
-              width="auto"
-              tick={{ fill: "#8B87A8", fontSize: 12 }}
+              tickLine={false}
+              width={yAxisWidth}
+              // tick={{ fill: "#8B87A8", fontSize: 12 }}
+              tick={({ y, payload }) => (
+                <text
+                  x={0}
+                  y={y}
+                  dy={4}
+                  textAnchor="start"
+                  fill="#8B87A8"
+                  fontSize={13}
+                >
+                  {payload.value}
+                </text>
+              )}
             />
             <Bar
               dataKey="percent"
@@ -140,8 +156,7 @@ export function HorizontalBarChart({ votes, title, data }: HorizontalBarProps) {
 export default function CandidateHorizontalBarChart() {
   return (
     <>
-      {
-      categories.map((category) => {
+      {categories.map((category) => {
         const totalVotes = category.candidates.reduce(
           (sum, candidate) => sum + candidate.votes,
           0,
@@ -160,7 +175,7 @@ export default function CandidateHorizontalBarChart() {
             .join(" ");
 
           return `${initials} ${lastName}`;
-        }
+        };
 
         const chartData = category.candidates.map((candidate) => ({
           ...candidate,
@@ -171,6 +186,9 @@ export default function CandidateHorizontalBarChart() {
               : 0,
         }));
 
+        // A function to get accurate width for horizontal bar
+        const yAxisWidth =
+          Math.max(...chartData.map((item) => item.name.length)) * 8;
         return (
           <div>
             <HorizontalBarChart
@@ -178,6 +196,7 @@ export default function CandidateHorizontalBarChart() {
               data={chartData}
               title={category.name}
               votes={totalVotes}
+              yAxisWidth={yAxisWidth}
             />
           </div>
         );

@@ -19,9 +19,9 @@ const Vote = () => {
         <div className="lg:w-[25%]">
           <TimeRemaining targetDate="2026-07-18T18:00:00" />
           <VoterTurnout
-            votesCast={2847491}
-            registeredVoters={4491200}
-            targetPercent={70}
+            // votesCast={2847491}
+            // registeredVoters={4491200}
+            // targetPercent={70}
           />
           <SecurityStatus />
         </div>

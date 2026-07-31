@@ -31,7 +31,7 @@ const defaultPositions: VotePosition[] = [
     candidates: [
       {
         id: "cj",
-        name: "Chukwuemeka James",
+        name: "Chukwuemeka kalu",
         manifesto:
           "Renewed hope, With God all thing are possible. I am processor, i am software engineer. i am a data analyst. i am a winner, i cant never be a loser. i must make it in live.",
         initials: "CJ",

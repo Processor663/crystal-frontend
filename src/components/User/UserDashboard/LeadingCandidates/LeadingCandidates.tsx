@@ -1,5 +1,19 @@
+
 import { memo } from "react";
 import { BsActivity } from "react-icons/bs";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectCube, Pagination } from "swiper/modules";
+
+
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-cube";
+import "swiper/css/pagination";
+
+
+
+// import required modules
 
 interface CandidateData {
   name: string;
@@ -7,8 +21,8 @@ interface CandidateData {
 }
 
 export interface Candidates {
-  id:string,
-  name: string,
+  id: string;
+  name: string;
   candidates: CandidateData[];
 }
 
@@ -58,7 +72,7 @@ const defaultCandidates = [
     name: "Vice-President",
     candidates: [
       { name: "Mary Chukwuemeka", votes: 1004 },
-      { name: "James Chukwuemeka", votes: 1 },
+      { name: "James Chukwuemeka", votes: 200 },
     ],
   },
   {
@@ -66,7 +80,7 @@ const defaultCandidates = [
     name: "Assistant-Sec.Gen",
     candidates: [
       { name: "Chukwuemeka Mary", votes: 1004 },
-      { name: "Chukwuemeka James", votes: 1 },
+      { name: "Chukwuemeka James", votes: 200 },
     ],
   },
 ];
@@ -76,8 +90,8 @@ export default memo(function LeadingCandidates({
   updatedEverySeconds = 30,
 }: LeadingCandidatesProps) {
   return (
-    <div className="w-full rounded-2xl border border-border bg-surface p-6 pt-0 shadow-lg sticky top-0 overflow-y-auto  max-h-100">
-      <div className="mb-6 pt-5 pb-3 flex items-center gap-2 sticky top-0 bg-surface">
+    <div className="w-full rounded-2xl border border-border bg-surface p-6 pt-0 shadow-lg sticky top-0  max-h-100">
+      <div className="mb-4 pt-5  flex items-center gap-2 sticky top-0 bg-surface">
         <BsActivity className="h-5 w-5 text-[#7C6AF4]" />
         <div>
           <h2 className="text-base font-semibold text-white">
@@ -88,8 +102,38 @@ export default memo(function LeadingCandidates({
           </p>
         </div>
       </div>
-
-     <p>mmmmmmmmmmmmmmmmmmm</p>
+      <div className="">
+        <Swiper
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          effect={"cube"}
+          grabCursor={true}
+          cubeEffect={{
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
+          }}
+          pagination={true}
+          modules={[Autoplay, EffectCube, Pagination]}
+          className="mySwiper"
+        >
+          <SwiperSlide>
+            <div className="bg-bg text-text p-5">
+              <div className="flex flex-col items-center justify-center gap-5">
+                <div className="grid place-content-center w-30 h-30 rounded-full border border-border">
+                  <div>AC</div>
+                </div>
+                <p className="bg-surface2 py-2 px-8 border border-border rounded-2xl text-accent">President</p>
+              </div>
+            </div>
+          </SwiperSlide>
+         
+        </Swiper>
+      </div>
     </div>
   );
 });

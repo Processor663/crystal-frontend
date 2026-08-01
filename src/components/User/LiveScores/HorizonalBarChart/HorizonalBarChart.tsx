@@ -125,8 +125,7 @@ export function HorizontalBarChart({ votes, title, yAxisWidth, data }: Horizonta
                   x={0}
                   y={y}
                   dy={4}
-                  textAnchor="start"
-                  fill="#8B87A8"
+                  fill="#ffffff"
                   fontSize={13}
                 >
                   {payload.value}
@@ -139,13 +138,13 @@ export function HorizontalBarChart({ votes, title, yAxisWidth, data }: Horizonta
               fill={BAR_COLOR}
               background={{ fill: BAR_BACKGROUND }}
             >
-              {/* <LabelList
+              <LabelList
                 dataKey="percent"
                 position="right"
                 formatter={(value) => `${Number(value).toFixed(1)}%`}
                 style={{ fill: "#CBD5E1", fontSize: 13 }}
-              /> */}
-              <LabelList
+              />
+              {/* <LabelList
                 dataKey="percent"
                 content={({ x, y, width, height, value }) => (
                   <text
@@ -158,7 +157,7 @@ export function HorizontalBarChart({ votes, title, yAxisWidth, data }: Horizonta
                     {Number(value).toFixed(1)}%
                   </text>
                 )}
-              />
+              /> */}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -204,7 +203,7 @@ export default function CandidateHorizontalBarChart() {
         const yAxisWidth =
           Math.max(...chartData.map((item) => item.name.length)) * 8;
         return (
-          <div>
+        
             <HorizontalBarChart
               key={category.id}
               data={chartData}
@@ -212,7 +211,7 @@ export default function CandidateHorizontalBarChart() {
               votes={totalVotes}
               yAxisWidth={yAxisWidth}
             />
-          </div>
+        
         );
       })}
     </>

@@ -139,11 +139,25 @@ export function HorizontalBarChart({ votes, title, yAxisWidth, data }: Horizonta
               fill={BAR_COLOR}
               background={{ fill: BAR_BACKGROUND }}
             >
-              <LabelList
+              {/* <LabelList
                 dataKey="percent"
                 position="right"
                 formatter={(value) => `${Number(value).toFixed(1)}%`}
                 style={{ fill: "#CBD5E1", fontSize: 13 }}
+              /> */}
+              <LabelList
+                dataKey="percent"
+                content={({ x, y, width, height, value }) => (
+                  <text
+                    x={Number(x) + Number(width) + 10}
+                    y={Number(y) + Number(height) / 2}
+                    fill="#CBD5E1"
+                    fontSize={13}
+                    dominantBaseline="middle"
+                  >
+                    {Number(value).toFixed(1)}%
+                  </text>
+                )}
               />
             </Bar>
           </BarChart>

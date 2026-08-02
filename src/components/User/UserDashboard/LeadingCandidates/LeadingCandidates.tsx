@@ -128,7 +128,7 @@ export default memo(function LeadingCandidates() {
                       </dd>
                     </div>
                     <div className="flex items-center justify-between">
-                      <dt className="text-sm text-slate-400">Total Share</dt>
+                      <dt className="text-sm text-slate-400">Vote Share</dt>
                       <dd className="text-sm  text-white">
                         {candidate.totalVotes > 0
                           ? (
@@ -143,7 +143,7 @@ export default memo(function LeadingCandidates() {
                     <div className="flex items-center justify-between">
                       <dt className="text-sm text-slate-400">Leading by</dt>
                       <dd className="text-sm  text-white">
-                        {formatNumber(candidate.candidates[0].votes)}
+                        {`${formatNumber(candidate.candidates[0].votes)} votes`}
                       </dd>
                     </div>
                   </dl>

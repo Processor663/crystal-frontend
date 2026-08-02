@@ -27,6 +27,8 @@
 
 * {
   box-sizing: border-box !important;
+    /* background: #5d6c84ba; */
+
 }
 
 @layer base {

@@ -98,7 +98,7 @@ export default memo(function LeadingCandidates() {
                     <div className="bg-accent grid place-content-center w-25 h-25 rounded-full border border-border">
                       <div>AC</div>
                     </div>
-                    <p className="w-full text-center bg-surface2 py-2 px-8 border border-border rounded-2xl text-slate-400">
+                    <p className="w-full text-center bg-surface2 py-2 px-8 border border-border rounded-2xl text-slate-300">
                       {candidate.position?.toUpperCase()}
                     </p>
                     <h3 className="truncate max-w-[90%]">

@@ -4,10 +4,14 @@ import ElectionStatsRow from "@/components/User/UserDashboard/StatCard/StatCard"
 import LeadingCandidatesTable from "../CandidatesTable/CandidatesTable";
 import LeadingCandidatesProgress from "../LeadingCandidates/LeadingCandidates";
 import VotingStatusCard from "../../Vote/VotingStatusCard/VotingStatusCard";
+import ProfileHero from "../ProfileHero/ProfileHero";
 
 function UserDashboard() {
   return (
     <>
+      <div>
+        <ProfileHero />
+      </div>
       <div className="stat-container pb-5">
         <ElectionStatsRow />
       </div>

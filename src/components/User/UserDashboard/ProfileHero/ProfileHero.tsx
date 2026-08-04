@@ -5,14 +5,14 @@ import { FaTriangleExclamation } from "react-icons/fa6";
 
 const chartData = [
   { name: "Group A", value: 100, color: "#FA8C16" },
-  { name: "Group D", value: 20, color: "#dddce3" },
+  { name: "Group B", value: 20, color: "#dddce3" },
 ];
 
 const isProfileComplete = !false;
 
-const size = 120;
-const innerRadius = 46;
-const outerRadius = 60;
+const size = 160;
+const innerRadius = 60;
+const outerRadius = 80;
 const ProfileHero = () => {
   return (
     isProfileComplete && (
@@ -80,7 +80,7 @@ const ProfileHero = () => {
           </div>
         </div>
         <p className="mt-5 md:mt-0">
-          Complete your profile by adding a profile picture and manifesto to
+          Add a profile picture and manifesto to
           help voters recognize you and make informed voting decisions. Visit
           Settings to get started.
         </p>

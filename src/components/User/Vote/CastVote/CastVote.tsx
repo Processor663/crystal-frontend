@@ -33,7 +33,7 @@ const defaultPositions: VotePosition[] = [
         id: "cj",
         name: "Chukwuemeka kalu",
         manifesto:
-          "Renewed hope, With God all thing are possible. I am processor, i am software engineer. i am a data analyst. i am a winner, i cant never be a loser. i must make it in live.",
+          "I am committed to transparent leadership, student welfare, academic excellence, and innovation. Together, we will create opportunities, strengthen representation, and build a better community for all.",
         initials: "CJ",
         color: "#7C6AF4",
       },

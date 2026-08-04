@@ -1,12 +1,6 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  /* .app-container {
-    background-color: #14171f;
-    border: 1px solid #2a2f42;
-    border-radius: 24px;
-  } */
-
   .app-form-input {
     border-radius: 10px;
     padding: 0.6rem;
@@ -28,5 +22,15 @@ export const Wrapper = styled.div`
 
   .ant-input-password-icon:hover {
     color: #9a8cff;
+  }
+
+  .ant-input::placeholder,
+  .ant-input-textarea textarea::placeholder {
+    color: #6b7280 !important;
+  }
+
+  .ant-input-data-count {
+    margin-top: 1rem !important;
+    color: #ffffff !important;
   }
 `;

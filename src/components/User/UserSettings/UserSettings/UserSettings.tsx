@@ -15,6 +15,7 @@ export interface UserProfile {
   phone: string;
   role: string;
   nin: string;
+  manifesto: string;
   avatarInitials: string;
 }
 
@@ -28,27 +29,47 @@ interface SettingsPageProps {
   profile?: UserProfile;
 }
 
+interface ManifestoFormValues {
+  manifesto: string;
+}
+
 const defaultProfile: UserProfile = {
   fullName: "Adebayo Ogundimu",
   email: "adebayo.o@example.com",
   phone: "+234 801 234 5678",
-  role: "Candidate",
+  role: "Presidential Candidate",
   nin: "••••••4782",
+  manifesto:
+    "I am committed to transparent leadership, student welfare, academic excellence, and innovation. Together, we will create opportunities, strengthen representation, and build a better community for all.",
   avatarInitials: "AO",
 };
 
 export default function SettingsPage({
   profile = defaultProfile,
 }: SettingsPageProps) {
+  //it will come from tantack
+  const isLoading = false;
+
   const [formState] = useState<UserProfile>(profile);
   const [passwordForm] = Form.useForm<PasswordFormValues>();
+
+  const [manifestoForm] = Form.useForm<ManifestoFormValues>();
+
+  const handleManifestoSubmit = (values: ManifestoFormValues) => {
+    try {
+      // handle manifesto save logic goes here
+      console.log(values);
+
+      toast.success("Manifesto saved successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
+  };
 
   const handleAvatarClick = () => {
     // upload image Logic goes here
   };
-
-  //it will come from tantack
-  const isLoading = true;
 
   const handlePasswordSubmit = (values: PasswordFormValues) => {
     try {
@@ -102,6 +123,12 @@ export default function SettingsPage({
                 <p className="text-sm text-slate-400">{formState.role}</p>
               </div>
             </div>
+            <div className="text-muted border border-border  md:p-5 rounded-2xl">
+              <p className="text-sm text-text mb-3 pt-3 pl-5 md:pt-0 md:pl-0">Manifesto:</p>
+              <div className="bg-surface2 text-text p-5 rounded-2xl rounded-t md:rounded-t-2xl">
+                {formState.manifesto}
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 text-sm">
               <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
@@ -118,6 +145,62 @@ export default function SettingsPage({
               </div>
             </div>
           </div>
+          {/* Manifesto section */}
+          <div className="mt-10">
+            <div className="mb-5 flex items-center justify-between"></div>
+            <div className="rounded-2xl md:border border-border md:p-6">
+              <Form
+                form={manifestoForm}
+                layout="vertical"
+                requiredMark={false}
+                // initialValues={{ manifesto: formState.manifesto }}
+                onFinish={handleManifestoSubmit}
+              >
+                <Form.Item
+                  label={
+                    <span className="text-sm font-semibold text-white">
+                      Edit manifesto
+                    </span>
+                  }
+                  name="manifesto"
+                  rules={[
+                    { required: true, message: "Please write your manifesto" },
+                    {
+                      max: 600,
+                      message: "Manifesto must be 600 characters or less",
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    rows={6}
+                    maxLength={200}
+                    showCount
+                    className="app-form-input"
+                    placeholder="Tell voters what you stand for and what you plan to do if elected..."
+                  />
+                </Form.Item>
+
+                <p className="mb-5 text-xs text-[#F4A623]">
+                  Note: This is shown to voters on your candidate card.
+                </p>
+
+                <AntButton
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                    background: "#7C6AF4",
+                    borderColor: "#7C6AF4",
+                    fontWeight: 700,
+                    height: 40,
+                  }}
+                  loading={isLoading}
+                >
+                  Save Manifesto
+                </AntButton>
+              </Form>
+            </div>
+          </div>
+          {/* Manifesto section */}
 
           {/* Password section */}
           <div className="mt-15">

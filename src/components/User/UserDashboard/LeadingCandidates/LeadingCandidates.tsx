@@ -95,7 +95,7 @@ export default memo(function LeadingCandidates() {
               <SwiperSlide>
                 <div className=" text-text">
                   <div className="flex flex-col items-center justify-center gap-5 pt-5 ">
-                    <div className="bg-accent grid place-content-center w-25 h-25 rounded-full border border-border">
+                    <div className="bg-accent grid place-content-center w-25 h-25 rounded-full border-2 border-[#ffffff] ">
                       <div>AC</div>
                     </div>
                     <p className="w-full text-center bg-surface2 py-2 px-8 border border-border rounded-2xl text-slate-300">
@@ -143,7 +143,7 @@ export default memo(function LeadingCandidates() {
                     <div className="flex items-center justify-between">
                       <dt className="text-sm text-slate-400">Leading by</dt>
                       <dd className="text-sm  text-white">
-                        {`${formatNumber(candidate.candidates[0].votes)} votes`}
+                        {formatNumber(candidate.candidates[0].votes)}
                       </dd>
                     </div>
                   </dl>

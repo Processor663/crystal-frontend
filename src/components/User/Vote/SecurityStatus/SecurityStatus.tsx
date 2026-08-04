@@ -13,7 +13,7 @@ interface SecurityStatusProps {
 
 const defaultItems: SecurityStatusItem[] = [
   { id: "encryption", label: "Encryption", value: "AES-256", verified: true },
-  { id: "audit-log", label: "Audit log", value: "Active", verified: true },
+  { id: "audit-log", label: "Audit Log", value: "Active", verified: true },
   { id: "session", label: "Session", value: "Verified", verified: true },
 ];
 

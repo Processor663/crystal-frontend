@@ -1,6 +1,6 @@
 import { memo } from "react";
 //Components
-import ElectionStatsRow from "@/components/User/UserDashboard/StatCard/StatCard";
+import ElectionStatsRow from "@/components/Dashboard/StatCard/StatCard";
 import LeadingCandidatesTable from "../CandidatesTable/CandidatesTable";
 import LeadingCandidatesProgress from "../LeadingCandidates/LeadingCandidates";
 import VotingStatusCard from "../../Vote/VotingStatusCard/VotingStatusCard";

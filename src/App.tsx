@@ -1,4 +1,4 @@
-import AppRoute from "./routes/user.route";
+import AppRoute from "./routes/route";
 import { ToastContainer } from "react-toastify";
 
 function App() {

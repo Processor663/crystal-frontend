@@ -2,7 +2,7 @@ import { memo } from "react";
 import TimeRemaining from "../../Vote/TimeRemaining/TimeRemaining";
 import VoterTurnout from "../../Vote/VoteTurnOut/VoteTurnOut";
 import ResultsCard from "../CandidateResult/CandidateResult";
-import LeadingCandidatesProgress from "../../UserDashboard/LeadingCandidates/LeadingCandidates";
+import LeadingCandidatesProgress from "../../Dashboard/LeadingCandidates/LeadingCandidates";
 
 // This suppose to come from API
 const totalVote = (1847491).toLocaleString();

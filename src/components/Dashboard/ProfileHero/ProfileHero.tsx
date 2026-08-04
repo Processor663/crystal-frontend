@@ -8,14 +8,20 @@ const chartData = [
   { name: "Group B", value: 20, color: "#dddce3" },
 ];
 
+// THIS SHOULD COME FROM BETTERAUTH API
+const user = {
+  role: "CANDIDATE"
+}
+
 const isProfileComplete = !false;
+const userRole = user.role === "CANDIDATE"
 
 const size = 160;
 const innerRadius = 60;
 const outerRadius = 80;
 const ProfileHero = () => {
   return (
-    isProfileComplete && (
+    isProfileComplete && userRole &&(
       <div className="mt-5 md:mt-0 p-5 text-text rounded-2xl border border-border bg-surface">
         <div className="w-full space-y-5 md:flex justify-between">
           <div className="">

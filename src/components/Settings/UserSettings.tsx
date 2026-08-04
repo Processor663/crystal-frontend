@@ -7,7 +7,7 @@ import { CiCamera } from "react-icons/ci";
 import { toast } from "react-toastify";
 
 //Styles
-import { Wrapper } from "./UserSettings.styles";
+import { Wrapper } from "./Settings.styles";
 
 export interface UserProfile {
   fullName: string;

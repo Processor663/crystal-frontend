@@ -3,16 +3,16 @@ import { Routes, Route } from "react-router-dom";
 
 //Pages
 const Login = lazy(() => import("../pages/auth/LoginPage"));
-const UserPage = lazy(() => import("../pages/userPage/UserPage"));
-const CastVotePage = lazy(() => import("../pages/userPage/CastVotePage"));
+const UserPage = lazy(() => import("../pages/DashboardPage"));
+const CastVotePage = lazy(() => import("../pages/CastVotePage"));
 const UserSettingsPage = lazy(
-  () => import("../pages/userPage/UserSettingsPage"),
+  () => import("../pages/SettingsPage"),
 );
 const ForgotPasswordPage = lazy(
-  () => import("../pages/ForgotPasswordPage/ForgotPasswordPage"),
+  () => import("../pages/ForgotPasswordPage"),
 );
-const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
-const LiveScoresPage = lazy(() => import("@/pages/userPage/LiveScoresPage"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const LiveScoresPage = lazy(() => import("@/pages/LiveScoresPage"));
 
 //Components
 import App_Spinner from "../components/shared/Spinner/Spinner";

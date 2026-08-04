@@ -1,4 +1,4 @@
-import UserSetting from "@/components/User/UserSettings/UserSettings/UserSettings";
+import UserSetting from "@/components/Settings/UserSettings";
 
 
 const UserSettingsPage = () => {

@@ -3,7 +3,11 @@ import App_Drawer from "@/components/shared/Drawer/Drawer";
 
 import { motion } from "framer-motion";
 
+// HOOKS
+import { useAuthUser } from "@/hooks/useAuthUser";
+
 const NavBar = () => {
+  const { role } = useAuthUser();
   const { pathname } = useLocation();
   return (
     <>
@@ -51,14 +55,15 @@ const NavBar = () => {
               <span className="inline-block w-[7px] h-[7px] rounded-full bg-green animate-[pulse_1s_infinite] mr-1"></span>
               Voting Open
             </div>
-            {!pathname.includes("vote") && (
-              <Link
-                to="vote"
-                className="hidden lg:block hover:bg-transparent hover:border border-accent bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1"
-              >
-                Cast Your Vote
-              </Link>
-            )}
+            {!pathname.includes("vote") &&
+              (role !== "ADMIN") && (
+                <Link
+                  to="vote"
+                  className="hidden lg:block hover:bg-transparent hover:border border-accent bg-purple rounded-2xl text-text text-[0.75rem] px-3 py-1"
+                >
+                  Cast Your Vote
+                </Link>
+              )}
           </div>
         </div>
       </div>

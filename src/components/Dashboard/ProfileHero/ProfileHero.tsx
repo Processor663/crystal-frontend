@@ -1,5 +1,8 @@
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 
+//Hooks
+import { useAuthUser } from "@/hooks/useAuthUser";
+
 // Icons
 import { FaTriangleExclamation } from "react-icons/fa6";
 
@@ -8,20 +11,24 @@ const chartData = [
   { name: "Group B", value: 20, color: "#dddce3" },
 ];
 
-// THIS SHOULD COME FROM BETTERAUTH API
-const user = {
-  role: "CANDIDATE"
-}
-
-const isProfileComplete = !false;
-const userRole = user.role === "CANDIDATE"
 
 const size = 160;
 const innerRadius = 60;
 const outerRadius = 80;
+
+
+
 const ProfileHero = () => {
+const { role } = useAuthUser();
+const userRole = role === "CANDIDATE";
+
+//This will come from API
+const isProfileComplete = !false;
+
+
   return (
-    isProfileComplete && userRole &&(
+    isProfileComplete &&
+    userRole && (
       <div className="mt-5 md:mt-0 p-5 text-text rounded-2xl border border-border bg-surface">
         <div className="w-full space-y-5 md:flex justify-between">
           <div className="">
@@ -86,9 +93,8 @@ const ProfileHero = () => {
           </div>
         </div>
         <p className="mt-5 md:mt-0">
-          Add a profile picture and manifesto to
-          help voters recognize you and make informed voting decisions. Visit
-          Settings to get started.
+          Add a profile picture and manifesto to help voters recognize you and
+          make informed voting decisions. Visit Settings to get started.
         </p>
       </div>
     )

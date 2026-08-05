@@ -15,27 +15,28 @@ import {
   type ColumnFiltersState,
 } from "@tanstack/react-table";
 
-export interface LeadingCandidateTableRow {
+export interface CandidateTableRow {
   id: string;
   name: string;
   votes: number;
   voteShare: number; // 0 - 100
   position: string;
-
+  emailVerification: string;
+  actions?: React.ReactNode;
 }
 
-interface LeadingCandidatesTableProps {
-  rows?: LeadingCandidateTableRow[];
+interface CandidatesTableProps {
+  rows?: CandidateTableRow[];
 }
 
-const defaultRows: LeadingCandidateTableRow[] = [
+const defaultRows: CandidateTableRow[] = [
   {
     id: "cj",
     name: "Chijioke",
     votes: 1093439,
     voteShare: 38.4,
     position: "SUG PRO",
-
+    emailVerification: "verified",
   },
   {
     id: "fa",
@@ -43,7 +44,7 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 903228,
     voteShare: 31.7,
     position: "Vice-President",
-   
+    emailVerification: "verified",
   },
   {
     id: "bo",
@@ -51,7 +52,7 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 539027,
     voteShare: 18.9,
     position: "Secretary",
-
+    emailVerification: "verified",
   },
   {
     id: "nk",
@@ -59,7 +60,7 @@ const defaultRows: LeadingCandidateTableRow[] = [
     votes: 313797,
     voteShare: 11.0,
     position: "president",
-  
+    emailVerification: "verified",
   },
 ];
 
@@ -159,7 +160,7 @@ function PositionFilter({ value, onChange, options }: PositionFilterProps) {
   );
 }
 
-const columnHelper = createColumnHelper<LeadingCandidateTableRow>();
+const columnHelper = createColumnHelper<CandidateTableRow>();
 
 const columns = [
   columnHelper.accessor("name", {
@@ -194,13 +195,27 @@ const columns = [
       </span>
     ),
   }),
+  columnHelper.accessor("emailVerification", {
+    header: "verification",
+    cell: (info) => (
+      <span className="text-sm font-semibold text-slate-400">
+        {info.getValue()}
+      </span>
+    ),
+  }),
+  columnHelper.accessor("actions", {
+    header: "Actions",
+    cell: (info) => (
+      <span className="text-sm font-semibold text-slate-400">
+        {info.getValue()}
+      </span>
+    ),
+  }),
 ];
 
-export default memo(function LeadingCandidatesTable({
+export default memo(function AdminManagement({
   rows = defaultRows,
-}: LeadingCandidatesTableProps) {
-
-
+}: CandidatesTableProps) {
   // Immediate values — drive what's shown in the input/select, always instant.
   const [searchInput, setSearchInput] = useState("");
   const [positionInput, setPositionInput] = useState<string>("all");

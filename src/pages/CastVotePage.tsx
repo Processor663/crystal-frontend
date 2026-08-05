@@ -1,13 +1,13 @@
 import { Navigate } from "react-router-dom";
 import CastVote from "@/components/Vote/Vote/Vote";
 
-const user = {
-  role: "USER",
-};
+//Hooks
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 const CastVotePage = () => {
+  const { role } = useAuthUser();
   // Implement this for admin
-  if (user.role === "ADMIN") {
+  if (role === "ADMIN") {
     return <Navigate to="/" replace />;
   }
 

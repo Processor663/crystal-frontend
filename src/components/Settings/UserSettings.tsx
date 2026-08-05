@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 //Styles
 import { Wrapper } from "./Settings.styles";
 
+//HOOKS
+import { useAuthUser } from "@/hooks/useAuthUser";
+
 export interface UserProfile {
   fullName: string;
   email: string;
@@ -47,6 +50,7 @@ const defaultProfile: UserProfile = {
 export default function SettingsPage({
   profile = defaultProfile,
 }: SettingsPageProps) {
+  const { role } = useAuthUser();
   //it will come from tantack
   const isLoading = false;
 
@@ -123,14 +127,17 @@ export default function SettingsPage({
                 <p className="text-sm text-slate-400">{formState.role}</p>
               </div>
             </div>
-            <div className="text-muted border border-border  md:p-5 rounded-2xl">
-              <p className="text-sm text-text mb-3 pt-3 pl-5 md:pt-0 md:pl-0">Manifesto:</p>
-              <div className="bg-surface2 text-text p-5 rounded-2xl rounded-t md:rounded-t-2xl">
-                {formState.manifesto}
+            {role === "CANDIDATE" && (
+              <div className="text-muted border border-border  md:p-5 rounded-2xl">
+                <p className="text-sm text-text mb-3 pt-3 pl-5 md:pt-0 md:pl-0">
+                  Manifesto:
+                </p>
+                <div className="bg-surface2 text-text p-5 rounded-2xl rounded-t md:rounded-t-2xl">
+                  {formState.manifesto}
+                </div>
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 text-sm">
+            )}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 text-sm mt-10">
               <div className="border border-border rounded-2xl bg-surface2 p-3 pl-4">
                 {formState.fullName}
               </div>
@@ -146,60 +153,65 @@ export default function SettingsPage({
             </div>
           </div>
           {/* Manifesto section */}
-          <div className="mt-10">
-            <div className="mb-5 flex items-center justify-between"></div>
-            <div className="rounded-2xl md:border border-border md:p-6">
-              <Form
-                form={manifestoForm}
-                layout="vertical"
-                requiredMark={false}
-                // initialValues={{ manifesto: formState.manifesto }}
-                onFinish={handleManifestoSubmit}
-              >
-                <Form.Item
-                  label={
-                    <span className="text-sm font-semibold text-white">
-                      Edit manifesto
-                    </span>
-                  }
-                  name="manifesto"
-                  rules={[
-                    { required: true, message: "Please write your manifesto" },
-                    {
-                      max: 600,
-                      message: "Manifesto must be 600 characters or less",
-                    },
-                  ]}
+          {role === "CANDIDATE" && (
+            <div className="mt-10">
+              <div className="mb-5 flex items-center justify-between"></div>
+              <div className="rounded-2xl md:border border-border md:p-6">
+                <Form
+                  form={manifestoForm}
+                  layout="vertical"
+                  requiredMark={false}
+                  // initialValues={{ manifesto: formState.manifesto }}
+                  onFinish={handleManifestoSubmit}
                 >
-                  <Input.TextArea
-                    rows={6}
-                    maxLength={200}
-                    showCount
-                    className="app-form-input"
-                    placeholder="Tell voters what you stand for and what you plan to do if elected..."
-                  />
-                </Form.Item>
+                  <Form.Item
+                    label={
+                      <span className="text-sm font-semibold text-white">
+                        Edit manifesto
+                      </span>
+                    }
+                    name="manifesto"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please write your manifesto",
+                      },
+                      {
+                        max: 600,
+                        message: "Manifesto must be 600 characters or less",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      rows={6}
+                      maxLength={200}
+                      showCount
+                      className="app-form-input"
+                      placeholder="Tell voters what you stand for and what you plan to do if elected..."
+                    />
+                  </Form.Item>
 
-                <p className="mb-5 text-xs text-[#F4A623]">
-                  Note: This is shown to voters on your candidate card.
-                </p>
+                  <p className="mb-5 text-xs text-[#F4A623]">
+                    Note: This is shown to voters on your candidate card.
+                  </p>
 
-                <AntButton
-                  type="primary"
-                  htmlType="submit"
-                  style={{
-                    background: "#7C6AF4",
-                    borderColor: "#7C6AF4",
-                    fontWeight: 700,
-                    height: 40,
-                  }}
-                  loading={isLoading}
-                >
-                  Save Manifesto
-                </AntButton>
-              </Form>
+                  <AntButton
+                    type="primary"
+                    htmlType="submit"
+                    style={{
+                      background: "#7C6AF4",
+                      borderColor: "#7C6AF4",
+                      fontWeight: 700,
+                      height: 40,
+                    }}
+                    loading={isLoading}
+                  >
+                    Save Manifesto
+                  </AntButton>
+                </Form>
+              </div>
             </div>
-          </div>
+          )}
           {/* Manifesto section */}
 
           {/* Password section */}

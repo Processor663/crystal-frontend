@@ -1,18 +1,17 @@
 import { NavLink } from "react-router-dom";
 
-// THIS SHOULD BE CHECK FROM USEAUTH/BETTERAUTH API
-const user = {
-  role: "USER",
-};
+// HOOKS
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 // Types
 import type { SideItemProps } from "@/types/navItem.types";
 
 const SideItem = ({ navItems, onClose }: SideItemProps) => {
+  const { role } = useAuthUser();
   return (
     <div className=" lg:border-border lg:border border-l-0 py-5 pb-10 lg:pb-0 ">
       {navItems.map(({ desc, path, icon: Icon }) => {
-        if (user.role === "ADMIN" && desc === "Cast Vote") {
+        if (role === "ADMIN" && desc === "Cast Vote") {
           return null;
         }
 

@@ -13,6 +13,7 @@ import { FiPlay, FiSquare } from "react-icons/fi";
 
 //React-Toastify
 import { toast } from "react-toastify";
+import { Wrapper } from "./ElectionSchedule.styles";
 
 export interface Election {
   title: string;
@@ -150,234 +151,248 @@ export default function ElectionSchedule() {
         },
       }}
     >
-      <div className="rounded-2xl border border-border bg-surface p-6">
-        <div className="mb-5 flex items-center gap-2">
-          <svg
-            className="h-5 w-5 text-[#B7ADFB] "
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <rect x="4" y="7" width="16" height="14" rx="2" />
-            <path d="M8 3v4M16 3v4M4 11h16" />
-          </svg>
-          <h2 className="text-lg font-bold text-white">Election Schedule</h2>
-        </div>
-
-        <div className="mb-5 flex flex-col gap-3 sm:flex-row">
-          <AntButton
-            type="primary"
-            onClick={() => setCreateOpen(true)}
-            style={{
-              background: "#7C6AF4",
-              borderColor: "#7C6AF4",
-              fontWeight: 500,
-              height: 35,
-            }}
-          >
-            + Create Election
-          </AntButton>
-          <AntButton
-            onClick={() => {
-              editForm.setFieldsValue({
-                startsAt: dayjs(election.startsAt),
-                endsAt: dayjs(election.endsAt),
-              });
-              setEditOpen(true);
-            }}
-            style={{
-              borderColor: "#7C6AF4",
-              color: "#B7ADFB",
-              background: "transparent",
-              fontWeight: 500,
-              height: 35,
-            }}
-          >
-            Edit Schedule
-          </AntButton>
-        </div>
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between rounded-2xl border border-border bg-surface2 p-4">
-            <div className="flex items-center gap-4">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7C6AF4]/20 text-[#B7ADFB]">
-                <FiPlay className="h-4 w-4" />
-              </span>
-              <div>
-                <p className="text-xs tracking-wide text-slate-400 font-mono">
-                  ELECTION STARTS
-                </p>
-                <p className="text-md text-white font-mono">
-                  {dayjs(election.startsAt).format("MMM DD, YYYY · hh:mm A")}
-                </p>
-              </div>
-            </div>
-            <span
-              className={`rounded-full px-3 py-1 text-xs ${startStatus.className}`}
+      <Wrapper>
+        <div className="rounded-2xl border border-border bg-surface p-6">
+          <div className="mb-5 flex items-center gap-2">
+            <svg
+              className="h-5 w-5 text-[#B7ADFB] "
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
             >
-              {startStatus.label}
-            </span>
+              <rect x="4" y="7" width="16" height="14" rx="2" />
+              <path d="M8 3v4M16 3v4M4 11h16" />
+            </svg>
+            <h2 className="text-lg font-bold text-white">Election Schedule</h2>
           </div>
 
-          <div className="flex items-center justify-between rounded-2xl border border-border bg-surface2 p-4">
-            <div className="flex items-center gap-4">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7C6AF4]/20 text-[#B7ADFB]">
-                <FiSquare className="h-4 w-4" />
-              </span>
-              <div>
-                <p className="text-xs tracking-wide text-slate-400 font-mono">
-                  ELECTION ENDS
-                </p>
-                <p className="text-md text-white font-mono">
-                  {dayjs(election.endsAt).format("MMM DD, YYYY · hh:mm A")}
-                </p>
-              </div>
-            </div>
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-semibold ${endStatus.className}`}
-            >
-              {endStatus.label}
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-5 h-2 w-full overflow-hidden rounded-full bg-white/[0.07]">
-          <div
-            className="h-full rounded-full bg-[#7C6AF4]"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <p className="mt-3 text-sm text-slate-400">
-          {countdown ? (
-            <>
-              Voting closes in{" "}
-              <span className="font-semibold text-[#E8B563]">{countdown}</span>
-            </>
-          ) : (
-            "Voting has closed"
-          )}
-        </p>
-
-        {/* Create election modal */}
-        <Modal
-          title="Create election"
-          open={createOpen}
-          onCancel={() => setCreateOpen(false)}
-          footer={null}
-          destroyOnClose
-        >
-          <Form
-            form={createForm}
-            layout="vertical"
-            onFinish={handleCreateElection}
-          >
-            <Form.Item
-              name="title"
-              label="Election title"
-              rules={[{ required: true, message: "Please enter a title" }]}
-            >
-              <Input placeholder="e.g. Faculty of Engineering Rep" />
-            </Form.Item>
-            <Form.Item label="Voting window" required>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Form.Item
-                  name="startsAt"
-                  noStyle
-                  rules={[{ required: true, message: "Pick a start date" }]}
-                >
-                  <DatePicker
-                    showTime
-                    className="w-full"
-                    format="MMM DD, YYYY · hh:mm A"
-                    placeholder="Start date & time"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="endsAt"
-                  noStyle
-                  rules={[{ required: true, message: "Pick an end date" }]}
-                >
-                  <DatePicker
-                    showTime
-                    className="w-full"
-                    format="MMM DD, YYYY · hh:mm A"
-                    placeholder="End date & time"
-                  />
-                </Form.Item>
-              </div>
-            </Form.Item>
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row">
             <AntButton
               type="primary"
-              htmlType="submit"
-              loading={creating}
-              block
+              onClick={() => setCreateOpen(true)}
               style={{
                 background: "#7C6AF4",
                 borderColor: "#7C6AF4",
-                height: 44,
-                fontWeight: 700,
+                fontWeight: 500,
+                height: 35,
               }}
             >
-              Create Election
+              + Create Election
             </AntButton>
-          </Form>
-        </Modal>
-
-        {/* Edit schedule modal */}
-        <Modal
-          title={`Edit schedule — ${election.title}`}
-          open={editOpen}
-          onCancel={() => setEditOpen(false)}
-          footer={null}
-          destroyOnClose
-        >
-          <Form form={editForm} layout="vertical" onFinish={handleEditSchedule}>
-            <Form.Item label="Voting window" required>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Form.Item
-                  name="startsAt"
-                  noStyle
-                  rules={[{ required: true, message: "Pick a start date" }]}
-                >
-                  <DatePicker
-                    showTime
-                    className="w-full"
-                    format="MMM DD, YYYY · hh:mm A"
-                    placeholder="Start date & time"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="endsAt"
-                  noStyle
-                  rules={[{ required: true, message: "Pick an end date" }]}
-                >
-                  <DatePicker
-                    showTime
-                    className="w-full"
-                    format="MMM DD, YYYY · hh:mm A"
-                    placeholder="End date & time"
-                  />
-                </Form.Item>
-              </div>
-            </Form.Item>
             <AntButton
-              type="primary"
-              htmlType="submit"
-              loading={saving}
-              block
+              onClick={() => {
+                editForm.setFieldsValue({
+                  startsAt: dayjs(election.startsAt),
+                  endsAt: dayjs(election.endsAt),
+                });
+                setEditOpen(true);
+              }}
               style={{
-                background: "#7C6AF4",
                 borderColor: "#7C6AF4",
-                height: 44,
-                fontWeight: 700,
+                color: "#B7ADFB",
+                background: "transparent",
+                fontWeight: 500,
+                height: 35,
               }}
             >
-              Save changes
+              Edit Schedule
             </AntButton>
-          </Form>
-        </Modal>
-      </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between rounded-2xl border border-border bg-surface2 p-4">
+              <div className="flex items-center gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7C6AF4]/20 text-[#B7ADFB]">
+                  <FiPlay className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-xs tracking-wide text-slate-400 font-mono">
+                    ELECTION STARTS
+                  </p>
+                  <p className="text-md text-white font-mono">
+                    {dayjs(election.startsAt).format("MMM DD, YYYY · hh:mm A")}
+                  </p>
+                </div>
+              </div>
+              <span
+                className={`rounded-full px-3 py-1 text-xs ${startStatus.className}`}
+              >
+                {startStatus.label}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-2xl border border-border bg-surface2 p-4">
+              <div className="flex items-center gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7C6AF4]/20 text-[#B7ADFB]">
+                  <FiSquare className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-xs tracking-wide text-slate-400 font-mono">
+                    ELECTION ENDS
+                  </p>
+                  <p className="text-md text-white font-mono">
+                    {dayjs(election.endsAt).format("MMM DD, YYYY · hh:mm A")}
+                  </p>
+                </div>
+              </div>
+              <span
+                className={`rounded-full px-3 py-1 text-xs border-slate-500 border font-semibold ${endStatus.className}`}
+              >
+                {endStatus.label}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-5 h-2 w-full overflow-hidden rounded-full bg-white/[0.07]">
+            <div
+              className="h-full rounded-full bg-[#7C6AF4]"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="mt-3 text-sm text-slate-400">
+            {countdown ? (
+              <>
+                Voting closes in{" "}
+                <span className="font-semibold text-[#E8B563]">
+                  {countdown}
+                </span>
+              </>
+            ) : (
+              "Voting has closed"
+            )}
+          </p>
+
+          {/* Create election modal */}
+          <Modal
+            title="Create election"
+            open={createOpen}
+            onCancel={() => setCreateOpen(false)}
+            footer={null}
+            destroyOnHidden
+            style={{ top: 20 }}
+          >
+            <Form
+              form={createForm}
+              layout="vertical"
+              onFinish={handleCreateElection}
+            >
+              <Form.Item
+                name="title"
+                label="Election title"
+                rules={[{ required: true, message: "Please enter a title" }]}
+              >
+                <Input placeholder="e.g. Faculty of Engineering Rep" />
+              </Form.Item>
+              <Form.Item label="Voting window" required>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Form.Item
+                    name="startsAt"
+                    noStyle
+                    rules={[{ required: true, message: "Pick a start date" }]}
+                  >
+                    <DatePicker
+                      showTime
+                      className="w-full"
+                      format="MMM DD, YYYY · hh:mm A"
+                      placeholder="Start date & time"
+                      classNames={{
+                        popup: {
+                          root: "custom-datepicker",
+                        },
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="endsAt"
+                    noStyle
+                    rules={[{ required: true, message: "Pick an end date" }]}
+                  >
+                    <DatePicker
+                      showTime
+                      className="w-full"
+                      format="MMM DD, YYYY · hh:mm A"
+                      placeholder="End date & time"
+                    />
+                  </Form.Item>
+                </div>
+              </Form.Item>
+              <AntButton
+                type="primary"
+                htmlType="submit"
+                loading={creating}
+                block
+                style={{
+                  background: "#7C6AF4",
+                  borderColor: "#7C6AF4",
+                  height: 44,
+                  fontWeight: 700,
+                }}
+              >
+                Create Election
+              </AntButton>
+            </Form>
+          </Modal>
+
+          {/* Edit schedule modal */}
+          <Modal
+            title={`Edit schedule — ${election.title}`}
+            open={editOpen}
+            onCancel={() => setEditOpen(false)}
+            footer={null}
+            destroyOnHidden
+          >
+            <Form
+              form={editForm}
+              layout="vertical"
+              onFinish={handleEditSchedule}
+            >
+              <Form.Item label="Voting window" required>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Form.Item
+                    name="startsAt"
+                    noStyle
+                    rules={[{ required: true, message: "Pick a start date" }]}
+                  >
+                    <DatePicker
+                      showTime
+                      className="w-full"
+                      format="MMM DD, YYYY · hh:mm A"
+                      placeholder="Start date & time"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="endsAt"
+                    noStyle
+                    rules={[{ required: true, message: "Pick an end date" }]}
+                  >
+                    <DatePicker
+                      showTime
+                      className="w-full"
+                      format="MMM DD, YYYY · hh:mm A"
+                      placeholder="End date & time"
+                    />
+                  </Form.Item>
+                </div>
+              </Form.Item>
+              <AntButton
+                type="primary"
+                htmlType="submit"
+                loading={saving}
+                block
+                style={{
+                  background: "#7C6AF4",
+                  borderColor: "#7C6AF4",
+                  height: 44,
+                  fontWeight: 700,
+                }}
+              >
+                Save changes
+              </AntButton>
+            </Form>
+          </Modal>
+        </div>
+      </Wrapper>
     </ConfigProvider>
   );
 }

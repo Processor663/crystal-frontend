@@ -1,57 +1,105 @@
 import { useState } from "react";
 import { Modal, Input, Button as AntButton, ConfigProvider, theme } from "antd";
-import { IoWarningOutline, IoPowerOutline } from "react-icons/io5";
-import { CiCircleCheck } from "react-icons/ci";
+import {
+  IoWarningOutline,
+  IoPauseCircleOutline,
+  IoPlayCircleOutline,
+  IoStopCircleOutline,
+} from "react-icons/io5";
 
 //React-Toastify
 import { toast } from "react-toastify";
 
-interface DangerZoneProps {
-  activeElectionTitle: string;
+const ELECTION_TITLE = "SUG Election 2026";
+
+type ActionKey = "pause" | "resume" | "stop";
+type ElectionStatus = "active" | "paused" | "ended";
+
+interface ActionConfig {
+  key: ActionKey;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  confirmPhrase: string;
+  buttonLabel: string;
+  modalCopy: string;
+  disabled: boolean;
+  disabledReason?: string;
 }
 
-export default function DangerZone({ activeElectionTitle }: DangerZoneProps) {
-  const [bossModalOpen, setBossModalOpen] = useState(false);
-  const [bossConfirmText, setBossConfirmText] = useState("");
-  const [bossSubmitting, setBossSubmitting] = useState(false);
+export default function DangerZone() {
+  const [status, setStatus] = useState<ElectionStatus>("active");
+  const [openAction, setOpenAction] = useState<ActionKey | null>(null);
+  const [confirmText, setConfirmText] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const [endModalOpen, setEndModalOpen] = useState(false);
-  const [endReason, setEndReason] = useState("");
-  const [endSubmitting, setEndSubmitting] = useState(false);
+  const actions: ActionConfig[] = [
+    {
+      key: "pause",
+      icon: <IoPauseCircleOutline className="h-6 w-6 text-[#F09595]" />,
+      title: "PAUSE ELECTION",
+      description: "Temporarily halt voting. You can resume it later.",
+      confirmPhrase: "PAUSE ELECTION",
+      buttonLabel: "Pause Election",
+      modalCopy: `This stops new votes on ${ELECTION_TITLE} until it's resumed. Votes already cast are kept.`,
+      disabled: status !== "active",
+      disabledReason: "Only an active election can be paused.",
+    },
+    {
+      key: "resume",
+      icon: <IoPlayCircleOutline className="h-6 w-6 text-[#F09595]" />,
+      title: "RESUME ELECTION",
+      description: "Resume voting on a paused election.",
+      confirmPhrase: "RESUME ELECTION",
+      buttonLabel: "Resume Election",
+      modalCopy: `This reopens ${ELECTION_TITLE} for voting from where it left off.`,
+      disabled: status !== "paused",
+      disabledReason: "Only a paused election can be resumed.",
+    },
+    {
+      key: "stop",
+      icon: <IoStopCircleOutline className="h-6 w-6 text-[#F09595]" />,
+      title: "EMERGENCY STOP",
+      description: "Immediately and permanently end voting. Cannot be resumed.",
+      confirmPhrase: "EMERGENCY STOP",
+      buttonLabel: "Emergency Stop",
+      modalCopy: `This permanently ends ${ELECTION_TITLE}. Votes already cast are kept, but the election cannot resume afterward. This cannot be undone.`,
+      disabled: status === "ended",
+      disabledReason: "This election has already ended.",
+    },
+  ];
 
-  const bossConfirmMatches = bossConfirmText.trim() === "RESET ELECTION";
+  const current = actions.find((a) => a.key === openAction);
+  const confirmMatches =
+    !!current && confirmText.trim() === current.confirmPhrase;
 
-  const handleStartBossElection = async () => {
-    if (!bossConfirmMatches) return;
-    setBossSubmitting(true);
-    try {
-      // reset + start new election logic goes here
-      // e.g. await api.post("/admin/elections/boss-reset")
-      toast.success("Election reset. A new election has been started.");
-      setBossModalOpen(false);
-      setBossConfirmText("");
-    } catch (error) {
-      console.log(error);
-      toast.error("Couldn't reset the election. Try again.");
-    } finally {
-      setBossSubmitting(false);
-    }
+  const closeModal = () => {
+    setOpenAction(null);
+    setConfirmText("");
   };
 
-  const handleEndElection = async () => {
-    if (endReason.trim().length < 10) return;
-    setEndSubmitting(true);
+  const handleConfirm = async () => {
+    if (!current || !confirmMatches) return;
+    setSubmitting(true);
     try {
-      // end election logic goes here
-      // e.g. await api.post(`/admin/elections/end`, { reason: endReason })
-      toast.success(`${activeElectionTitle} ended`);
-      setEndModalOpen(false);
-      setEndReason("");
+      // action logic goes here, branch on current.key
+      // e.g. await api.post(`/admin/elections/${current.key}`)
+      const nextStatus: ElectionStatus =
+        current.key === "pause"
+          ? "paused"
+          : current.key === "resume"
+            ? "active"
+            : "ended";
+      setStatus(nextStatus);
+      toast.success(
+        `${ELECTION_TITLE} ${current.key === "pause" ? "paused" : current.key === "resume" ? "resumed" : "stopped"}`,
+      );
+      closeModal();
     } catch (error) {
       console.log(error);
-      toast.error("Couldn't end the election. Try again.");
+      toast.error("Couldn't complete that action. Try again.");
     } finally {
-      setEndSubmitting(false);
+      setSubmitting(false);
     }
   };
 
@@ -76,129 +124,79 @@ export default function DangerZone({ activeElectionTitle }: DangerZoneProps) {
           <div>
             <h2 className="text-lg font-bold text-[#F09595]">Danger Zone</h2>
             <p className="text-sm text-[#B08B8B]">
-              These actions are irreversible. Please be certain before
+              These actions affect live voting. Please be certain before
               proceeding.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          {/* Boss election */}
-          <div className="rounded-2xl border border-[#E24B4A]/25 bg-[#241417] p-5">
-            <div className="mb-2 flex items-center gap-2">
-              <CiCircleCheck className="h-6 w-6 text-[#F09595]" />
-              <p className="text-sm font-bold tracking-wide text-white">
-                BOSS ELECTION
-              </p>
-            </div>
-            <p className="mb-4 text-sm text-[#B08B8B]">
-              Reset and start a completely new election.
-            </p>
-            <AntButton
-              danger
-              type="primary"
-              onClick={() => setBossModalOpen(true)}
-              style={{ fontWeight: 700, height: 42 }}
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          {actions.map((action) => (
+            <div
+              key={action.key}
+              className="rounded-2xl border border-[#E24B4A]/25 bg-[#241417] p-5"
             >
-              Start Boss Election
-            </AntButton>
-          </div>
-
-          {/* End election */}
-          <div className="rounded-2xl border border-[#E24B4A]/25 bg-[#241417] p-5">
-            <div className="mb-2 flex items-center gap-2">
-              <IoPowerOutline className="h-6 w-6 text-[#F09595]" />
-              <p className="text-sm font-bold tracking-wide text-white">
-                END ELECTION
+              <div className="mb-2 flex items-center gap-2">
+                {action.icon}
+                <p className="text-sm font-bold tracking-wide text-white">
+                  {action.title}
+                </p>
+              </div>
+              <p className="mb-4 text-sm text-[#B08B8B]">
+                {action.description}
               </p>
+              <AntButton
+                danger
+                type="primary"
+                disabled={action.disabled}
+                onClick={() => setOpenAction(action.key)}
+                style={{ fontWeight: 700, height: 42 }}
+              >
+                {action.buttonLabel}
+              </AntButton>
+              {action.disabled && action.disabledReason && (
+                <p className="mt-2 text-xs text-[#8B6D6D]">
+                  {action.disabledReason}
+                </p>
+              )}
             </div>
-            <p className="mb-4 text-sm text-[#B08B8B]">
-              Immediately end the current election and stop voting.
-            </p>
-            <AntButton
-              danger
-              type="primary"
-              onClick={() => setEndModalOpen(true)}
-              style={{ fontWeight: 700, height: 42 }}
-            >
-              End Election
-            </AntButton>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Boss election confirmation */}
       <Modal
-        title="Reset and start a new election?"
-        open={bossModalOpen}
-        onCancel={() => {
-          setBossModalOpen(false);
-          setBossConfirmText("");
-        }}
-        onOk={handleStartBossElection}
-        okText="Start Boss Election"
+        title={current ? `${current.buttonLabel}?` : ""}
+        open={!!openAction}
+        onCancel={closeModal}
+        onOk={handleConfirm}
+        okText={current?.buttonLabel}
         okButtonProps={{
           danger: true,
-          disabled: !bossConfirmMatches,
-          loading: bossSubmitting,
+          disabled: !confirmMatches,
+          loading: submitting,
         }}
         cancelText="Cancel"
-        destroyOnClose
+        destroyOnHidden
+     
       >
-        <p className="mb-3 text-sm text-slate-400">
-          This permanently ends{" "}
-          <span className="font-semibold text-white">
-            {activeElectionTitle}
-          </span>{" "}
-          and every result tied to it, then starts a brand new election from
-          scratch. This cannot be undone.
-        </p>
-        <p className="mb-2 text-sm text-slate-400">
-          Type{" "}
-          <span className="font-mono font-semibold text-white">
-            RESET ELECTION
-          </span>{" "}
-          to confirm.
-        </p>
-        <Input
-          value={bossConfirmText}
-          onChange={(e) => setBossConfirmText(e.target.value)}
-          placeholder="RESET ELECTION"
-        />
-      </Modal>
-
-      {/* End election confirmation */}
-      <Modal
-        title="End this election?"
-        open={endModalOpen}
-        onCancel={() => {
-          setEndModalOpen(false);
-          setEndReason("");
-        }}
-        onOk={handleEndElection}
-        okText="End Election"
-        okButtonProps={{
-          danger: true,
-          disabled: endReason.trim().length < 10,
-          loading: endSubmitting,
-        }}
-        cancelText="Cancel"
-        destroyOnClose
-      >
-        <p className="mb-3 text-sm text-slate-400">
-          This immediately closes{" "}
-          <span className="font-semibold text-white">
-            {activeElectionTitle}
-          </span>{" "}
-          to new votes. Votes already cast are kept. This action is logged and
-          cannot be undone.
-        </p>
-        <Input.TextArea
-          rows={3}
-          value={endReason}
-          onChange={(e) => setEndReason(e.target.value)}
-          placeholder="Reason for ending this election (minimum 10 characters)"
-        />
+        {current && (
+          <>
+            <p className="mb-3 text-sm text-slate-400">{current.modalCopy}</p>
+            <p className="mb-2 text-sm text-slate-400">
+              Type{" "}
+              <span className="font-mono font-semibold text-white">
+                {current.confirmPhrase}
+              </span>{" "}
+              to confirm.
+            </p>
+            <Input
+              value={confirmText}
+              onChange={(e) => setConfirmText(e.target.value)}
+              placeholder={current.confirmPhrase}
+              autoFocus
+            />
+          </>
+        )}
       </Modal>
     </ConfigProvider>
   );

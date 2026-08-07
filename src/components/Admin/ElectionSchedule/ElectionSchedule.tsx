@@ -430,6 +430,7 @@ export default function ElectionSchedule() {
             destroyOnHidden
             centered
             width="min(480px, 92vw)"
+            style={{ top: 48 }}
           >
             <Form
               form={createForm}
@@ -488,7 +489,7 @@ export default function ElectionSchedule() {
             destroyOnHidden
             centered
             width="min(480px, 92vw)"
-            // style={{top: 48}}
+            style={{ top: 48 }}
             // styles={{
             //   body: {
             //     maxHeight: "70vh",

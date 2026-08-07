@@ -14,6 +14,18 @@ import {
   flexRender,
   type ColumnFiltersState,
 } from "@tanstack/react-table";
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  Button as AntButton,
+  ConfigProvider,
+  theme,
+} from "antd";
+
+//React-Toastify
+import { toast } from "react-toastify";
 
 export interface CandidateTableRow {
   id: string;
@@ -71,6 +83,10 @@ const defaultRows: CandidateTableRow[] = [
 function formatVotes(n: number) {
   return n.toLocaleString("en-US");
 }
+
+/* ------------------------------------------------------------------ */
+/*  Position filter dropdown                                          */
+/* ------------------------------------------------------------------ */
 
 interface PositionFilterProps {
   value: string;
@@ -164,75 +180,262 @@ function PositionFilter({ value, onChange, options }: PositionFilterProps) {
   );
 }
 
-const columnHelper = createColumnHelper<CandidateTableRow>();
+/* ------------------------------------------------------------------ */
+/*  Manage modal — edit candidate + delete-with-typed-confirmation    */
+/* ------------------------------------------------------------------ */
 
-const columns = [
-  columnHelper.accessor("name", {
-    header: "Candidate",
-    filterFn: "includesString",
-    cell: (info) => (
-      <div className="flex items-center gap-2.5 font-mono">
-        <span className="text-xs text-slate-100">{info.getValue()}</span>
-      </div>
-    ),
-  }),
-  columnHelper.accessor("position", {
-    header: "Position",
-    filterFn: "equalsString",
-    cell: (info) => (
-      <span className="text-xs text-slate-400 font-mono">
-        {info.getValue()}
-      </span>
-    ),
-  }),
-  columnHelper.accessor("votes", {
-    header: "Votes",
-    cell: (info) => (
-      <span className="text-xs font-mono text-slate-300">
-        {formatVotes(info.getValue())}
-      </span>
-    ),
-  }),
-  columnHelper.accessor("voteShare", {
-    header: "Vote Share",
-    cell: (info) => (
-      <span className="text-xs text-slate-400 font-mono">
-        {info.getValue().toFixed(1)}%
-      </span>
-    ),
-  }),
+interface EditCandidateValues {
+  name: string;
+  position: string;
+  emailVerified: boolean;
+}
 
-  columnHelper.accessor("emailVerified", {
-    header: "emailVerified ",
-    cell: (info) =>
-      info.getValue() ? (
-        <span className="text-xs text-green font-mono bg-[#152926] rounded-2xl py-1 px-5 border border-[#22c55e33]">
-          Verified
-        </span>
-      ) : (
-        <span className="text-xs text-[#D99A23] font-mono  rounded-2xl py-1 px-5 border border-[#f4a62333] bg-[#2B2620]">
-          Pending
-        </span>
-      ),
-  }),
-  columnHelper.accessor("actions", {
-    header: "Actions",
-    cell: (info) => (
-      <span
-        className="text-xs font-mono text-purple cursor-pointer hover:text-purple"
-        onClick={() => {
-          console.log(info.row.original);
-        }}
+interface CandidateManageModalProps {
+  candidate: CandidateTableRow | null;
+  positionOptions: string[];
+  onClose: () => void;
+  onSave: (updated: CandidateTableRow) => Promise<void> | void;
+  onDelete: (candidateId: string) => Promise<void> | void;
+}
+
+function CandidateManageModal({
+  candidate,
+  positionOptions,
+  onClose,
+  onSave,
+  onDelete,
+}: CandidateManageModalProps) {
+  const [form] = Form.useForm<EditCandidateValues>();
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteText, setDeleteText] = useState("");
+
+  const open = !!candidate;
+  const deleteMatches = candidate && deleteText.trim() === candidate.name;
+
+  // `form` (from Form.useForm()) is created once here and is NOT tied to
+  // the lifecycle of the <div key={candidate.id}> below — remounting that
+  // div remounts the visual <Form>, but this `form` object is the actual
+  // field store, and it survives untouched across that remount. So the
+  // JSX resets, but the data behind it doesn't, unless we explicitly sync
+  // it. This is a legitimate effect (pushing React state into an external
+  // store — antd's form instance), not a setState call, so it doesn't
+  // trigger the "setState in effect" warning the way setDeleteText did.
+  useEffect(() => {
+    if (candidate) {
+      form.setFieldsValue({
+        name: candidate.name,
+        position: candidate.position,
+        emailVerified: candidate.emailVerified,
+      });
+    }
+  }, [candidate, form]);
+
+  // `deleteText` IS plain React state, so it's reset via the key on the
+  // wrapping div instead — remounting that subtree naturally reinitializes
+  // its useState("") with no effect/setState needed for this part.
+  const handleClose = () => {
+    setDeleteText("");
+    onClose();
+  };
+
+  const handleSave = async (values: EditCandidateValues) => {
+    if (!candidate) return;
+    setSaving(true);
+    try {
+      // update candidate logic goes here
+      // e.g. await api.patch(`/admin/candidates/${candidate.id}`, values)
+      await onSave({ ...candidate, ...values });
+      toast.success(`${values.name} updated`);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      toast.error("Couldn't save changes. Try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!candidate || !deleteMatches) return;
+    setDeleting(true);
+    try {
+      // delete candidate logic goes here
+      // e.g. await api.delete(`/admin/candidates/${candidate.id}`)
+      await onDelete(candidate.id);
+      toast.success(`${candidate.name} removed`);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      toast.error("Couldn't delete candidate. Try again.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: "#7C6AF4",
+          colorBgContainer: "#1A1D2B",
+          colorBgElevated: "#161925",
+          colorBorder: "rgba(124,106,244,0.35)",
+          colorText: "#E5E4EC",
+          colorTextPlaceholder: "#5E5D74",
+          borderRadius: 12,
+        },
+      }}
+    >
+      <Modal
+        title={candidate ? `Manage — ${candidate.name}` : ""}
+        open={open}
+        onCancel={handleClose}
+        footer={null}
+        destroyOnHidden
+        centered
+        width="min(480px, 92vw)"
       >
-        {info.getValue()}
-      </span>
-    ),
-  }),
-];
+        {candidate && (
+          <div key={candidate.id}>
+            {/* Read-only context — votes are a tallied result, not an
+                admin-editable field, so they're shown here for reference
+                but never sent as part of the save payload. */}
+            <div className="mb-5 grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-border bg-surface2 p-3">
+                <p className="text-xs text-slate-400 font-mono">VOTES</p>
+                <p className="text-lg font-bold text-white font-mono">
+                  {formatVotes(candidate.votes)}
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-surface2 p-3">
+                <p className="text-xs text-slate-400 font-mono">VOTE SHARE</p>
+                <p className="text-lg font-bold text-white font-mono">
+                  {candidate.voteShare.toFixed(1)}%
+                </p>
+              </div>
+            </div>
+
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={{
+                name: candidate.name,
+                position: candidate.position,
+                emailVerified: candidate.emailVerified,
+              }}
+              onFinish={handleSave}
+            >
+              <Form.Item
+                name="name"
+                label="Candidate name"
+                rules={[{ required: true, message: "Please enter a name" }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                name="position"
+                label="Position"
+                rules={[
+                  { required: true, message: "Please select a position" },
+                ]}
+              >
+                <Select
+                  placeholder="Select a position"
+                  options={positionOptions.map((p) => ({ value: p, label: p }))}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="emailVerified"
+                label="Email verification"
+                rules={[{ required: true }]}
+              >
+                <Select
+                  options={[
+                    { value: true, label: "Verified" },
+                    { value: false, label: "Pending" },
+                  ]}
+                />
+              </Form.Item>
+
+              <AntButton
+                type="primary"
+                htmlType="submit"
+                loading={saving}
+                block
+                style={{
+                  background: "#7C6AF4",
+                  borderColor: "#7C6AF4",
+                  height: 44,
+                  fontWeight: 700,
+                }}
+              >
+                Save changes
+              </AntButton>
+            </Form>
+
+            <div className="mt-6 rounded-2xl border border-[#E24B4A]/30 bg-[#1D1113] p-4">
+              <p className="text-sm font-bold text-[#F09595]">
+                Delete this candidate
+              </p>
+              <p className="mt-1 mb-3 text-xs text-[#B08B8B]">
+                This permanently removes {candidate.name} and their{" "}
+                {formatVotes(candidate.votes)} votes from the result set. This
+                cannot be undone.
+              </p>
+              <p className="mb-2 text-xs text-[#B08B8B]">
+                Type{" "}
+                <span className="font-mono font-semibold text-white">
+                  {candidate.name}
+                </span>{" "}
+                to confirm.
+              </p>
+              <Input
+                value={deleteText}
+                onChange={(e) => setDeleteText(e.target.value)}
+                placeholder={candidate.name}
+                className="mb-3"
+              />
+              <AntButton
+                danger
+                type="primary"
+                block
+                disabled={!deleteMatches}
+                loading={deleting}
+                onClick={handleDelete}
+                style={{ height: 42, fontWeight: 700 }}
+              >
+                Delete Candidate
+              </AntButton>
+            </div>
+          </div>
+        )}
+      </Modal>
+    </ConfigProvider>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Candidate table                                                    */
+/* ------------------------------------------------------------------ */
+
+const columnHelper = createColumnHelper<CandidateTableRow>();
 
 export default memo(function CandidateTable({
   rows = defaultRows,
 }: CandidatesTableProps) {
+  // Table's own copy of the data, seeded from the prop. Manage/save/delete
+  // update this directly so the table re-renders immediately; swap the
+  // setData calls inside handleSaveCandidate/handleDeleteCandidate for
+  // your real mutation + refetch once this is wired to the backend.
+  const [data, setData] = useState<CandidateTableRow[]>(rows);
+
+  const [managingCandidate, setManagingCandidate] =
+    useState<CandidateTableRow | null>(null);
+
   // Immediate values — drive what's shown in the input/select, always instant.
   const [searchInput, setSearchInput] = useState("");
   const [positionInput, setPositionInput] = useState<string>("all");
@@ -252,13 +455,95 @@ export default memo(function CandidateTable({
     startTransition(() => setSelectedPosition(value));
   }
 
+  function handleSaveCandidate(updated: CandidateTableRow) {
+    setData((prev) =>
+      prev.map((row) => (row.id === updated.id ? updated : row)),
+    );
+  }
+
+  function handleDeleteCandidate(candidateId: string) {
+    setData((prev) => prev.filter((row) => row.id !== candidateId));
+  }
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("name", {
+        header: "Candidate",
+        filterFn: "includesString",
+        cell: (info) => (
+          <div className="flex items-center gap-2.5 font-mono">
+            <span className="text-xs text-slate-100">{info.getValue()}</span>
+          </div>
+        ),
+      }),
+      columnHelper.accessor("position", {
+        header: "Position",
+        filterFn: "equalsString",
+        cell: (info) => (
+          <span className="text-xs text-slate-400 font-mono">
+            {info.getValue()}
+          </span>
+        ),
+      }),
+      columnHelper.accessor("votes", {
+        header: "Votes",
+        cell: (info) => (
+          <span className="text-xs font-mono text-slate-300">
+            {formatVotes(info.getValue())}
+          </span>
+        ),
+      }),
+      columnHelper.accessor("voteShare", {
+        header: "Vote Share",
+        cell: (info) => (
+          <span className="text-xs text-slate-400 font-mono">
+            {info.getValue().toFixed(1)}%
+          </span>
+        ),
+      }),
+      columnHelper.accessor("emailVerified", {
+        header: "emailVerified ",
+        cell: (info) =>
+          info.getValue() ? (
+            <span className="text-xs text-green font-mono bg-[#152926] rounded-2xl py-1 px-5 border border-[#22c55e33]">
+              Verified
+            </span>
+          ) : (
+            <span className="text-xs text-[#D99A23] font-mono  rounded-2xl py-1 px-5 border border-[#f4a62333] bg-[#2B2620]">
+              Pending
+            </span>
+          ),
+      }),
+      columnHelper.accessor("actions", {
+        header: "Actions",
+        cell: (info) => (
+          <span
+            className="text-xs font-mono text-purple cursor-pointer hover:text-purple"
+            onClick={() => setManagingCandidate(info.row.original)}
+          >
+            {info.getValue()}
+          </span>
+        ),
+      }),
+    ],
+    [],
+  );
+
   const positionOptions = useMemo(() => {
-    const unique = Array.from(new Set(rows.map((r) => r.position)));
+    const unique = Array.from(new Set(data.map((r) => r.position)));
     return [
       { label: "All positions", value: "all" },
       ...unique.map((p) => ({ label: p, value: p })),
     ];
-  }, [rows]);
+  }, [data]);
+
+  // Plain string list (no "All positions") — this is what the Manage
+  // modal's Position <Select> offers, since "All" only makes sense as a
+  // table filter, not as something a candidate can actually run for.
+  const uniquePositions = useMemo(
+    () => Array.from(new Set(data.map((r) => r.position))),
+    [data],
+  );
 
   const columnFilters: ColumnFiltersState = useMemo(() => {
     const filters: ColumnFiltersState = [];
@@ -269,7 +554,7 @@ export default memo(function CandidateTable({
   }, [searchText, selectedPosition]);
 
   const table = useReactTable({
-    data: rows,
+    data,
     columns,
     state: { columnFilters },
     getCoreRowModel: getCoreRowModel(),
@@ -278,10 +563,10 @@ export default memo(function CandidateTable({
 
   return (
     <div className="w-full h-full rounded-2xl border border-border bg-surface p-5 shadow-lg">
-      <h2 className="font-bold text-white">Candidate Result</h2>
+      <h2 className="font-bold text-white">Registered Candidates</h2>
       <p className="mb-4 text-slate-400">
         {" "}
-        Detailed election results for all candidates
+        Manage all registered candidates participating in the election.
       </p>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -365,6 +650,14 @@ export default memo(function CandidateTable({
           </tbody>
         </table>
       </div>
+
+      <CandidateManageModal
+        candidate={managingCandidate}
+        positionOptions={uniquePositions}
+        onClose={() => setManagingCandidate(null)}
+        onSave={handleSaveCandidate}
+        onDelete={handleDeleteCandidate}
+      />
     </div>
   );
 });

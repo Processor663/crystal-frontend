@@ -27,6 +27,9 @@ import {
 //React-Toastify
 import { toast } from "react-toastify";
 
+// ICONS
+import { IoIosAdd } from "react-icons/io";
+
 export interface CandidateTableRow {
   id: string;
   name: string;
@@ -82,6 +85,19 @@ const defaultRows: CandidateTableRow[] = [
 
 function formatVotes(n: number) {
   return n.toLocaleString("en-US");
+}
+
+// Turns "Chijioke Adebayo" into a reasonably stable, readable id
+// ("chijioke-adebayo-x4f2"). This is a placeholder — once this is wired to
+// a real backend, the server should be the one assigning ids, not the client.
+function generateCandidateId(name: string) {
+  const slug = name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  const suffix = Math.random().toString(36).slice(2, 6);
+  return `${slug || "candidate"}-${suffix}`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -177,6 +193,134 @@ function PositionFilter({ value, onChange, options }: PositionFilterProps) {
         </div>
       )}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Create candidate modal                                            */
+/* ------------------------------------------------------------------ */
+
+interface CreateCandidateValues {
+  name: string;
+  position: string;
+}
+
+interface CreateCandidateModalProps {
+  open: boolean;
+  positionOptions: string[];
+  onClose: () => void;
+  onCreate: (candidate: CandidateTableRow) => Promise<void> | void;
+}
+
+function CreateCandidateModal({
+  open,
+  positionOptions,
+  onClose,
+  onCreate,
+}: CreateCandidateModalProps) {
+  const [form] = Form.useForm<CreateCandidateValues>();
+  const [creating, setCreating] = useState(false);
+
+  const handleClose = () => {
+    form.resetFields();
+    onClose();
+  };
+
+  const handleFinish = async (values: CreateCandidateValues) => {
+    setCreating(true);
+    try {
+      const newCandidate: CandidateTableRow = {
+        id: generateCandidateId(values.name),
+        name: values.name,
+        position: values.position,
+        votes: 0,
+        voteShare: 0,
+        emailVerified: false,
+        actions: "Manage",
+      };
+      // create candidate logic goes here
+      // e.g. await api.post("/admin/candidates", values)
+      await onCreate(newCandidate);
+      toast.success(`${values.name} added`);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      toast.error("Couldn't create candidate. Try again.");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: "#7C6AF4",
+          colorBgContainer: "#1A1D2B",
+          colorBgElevated: "#161925",
+          colorBorder: "rgba(124,106,244,0.35)",
+          colorText: "#E5E4EC",
+          colorTextPlaceholder: "#5E5D74",
+          borderRadius: 12,
+        },
+      }}
+    >
+      <Modal
+        title="Create candidate"
+        open={open}
+        onCancel={handleClose}
+        footer={null}
+        destroyOnHidden
+        centered
+        width="min(440px, 92vw)"
+      >
+        <Form form={form} layout="vertical" onFinish={handleFinish}>
+          <Form.Item
+            name="name"
+            label="Candidate name"
+            rules={[{ required: true, message: "Please enter a name" }]}
+          >
+            <Input placeholder="e.g. Chukwuemeka James" />
+          </Form.Item>
+
+          <Form.Item
+            name="position"
+            label="Position"
+            rules={[{ required: true, message: "Please select a position" }]}
+          >
+            <Select
+              placeholder="Select a position"
+              // mode="tags" lets an admin type a brand-new position (one
+              // that doesn't exist in `positionOptions` yet) instead of
+              // being limited to positions that already have a candidate.
+              mode="tags"
+              maxCount={1}
+              options={positionOptions.map((p) => ({ value: p, label: p }))}
+            />
+          </Form.Item>
+
+          <p className="mb-4 text-xs text-slate-500">
+            New candidates start with 0 votes and pending email verification.
+          </p>
+
+          <AntButton
+            type="primary"
+            htmlType="submit"
+            loading={creating}
+            block
+            style={{
+              background: "#7C6AF4",
+              borderColor: "#7C6AF4",
+              height: 44,
+              fontWeight: 700,
+            }}
+          >
+            Create Candidate
+          </AntButton>
+        </Form>
+      </Modal>
+    </ConfigProvider>
   );
 }
 
@@ -429,12 +573,14 @@ export default memo(function CandidateTable({
 }: CandidatesTableProps) {
   // Table's own copy of the data, seeded from the prop. Manage/save/delete
   // update this directly so the table re-renders immediately; swap the
-  // setData calls inside handleSaveCandidate/handleDeleteCandidate for
-  // your real mutation + refetch once this is wired to the backend.
+  // setData calls inside handleSaveCandidate/handleDeleteCandidate/
+  // handleCreateCandidate for your real mutation + refetch once this is
+  // wired to the backend.
   const [data, setData] = useState<CandidateTableRow[]>(rows);
 
   const [managingCandidate, setManagingCandidate] =
     useState<CandidateTableRow | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
 
   // Immediate values — drive what's shown in the input/select, always instant.
   const [searchInput, setSearchInput] = useState("");
@@ -463,6 +609,10 @@ export default memo(function CandidateTable({
 
   function handleDeleteCandidate(candidateId: string) {
     setData((prev) => prev.filter((row) => row.id !== candidateId));
+  }
+
+  function handleCreateCandidate(newCandidate: CandidateTableRow) {
+    setData((prev) => [...prev, newCandidate]);
   }
 
   const columns = useMemo(
@@ -537,9 +687,9 @@ export default memo(function CandidateTable({
     ];
   }, [data]);
 
-  // Plain string list (no "All positions") — this is what the Manage
-  // modal's Position <Select> offers, since "All" only makes sense as a
-  // table filter, not as something a candidate can actually run for.
+  // Plain string list (no "All positions") — this is what the Manage and
+  // Create modals' Position <Select> offer, since "All" only makes sense
+  // as a table filter, not as something a candidate can actually run for.
   const uniquePositions = useMemo(
     () => Array.from(new Set(data.map((r) => r.position))),
     [data],
@@ -563,11 +713,23 @@ export default memo(function CandidateTable({
 
   return (
     <div className="w-full h-full rounded-2xl border border-border bg-surface p-5 shadow-lg">
-      <h2 className="font-bold text-white">Registered Candidates</h2>
-      <p className="mb-4 text-slate-400">
-        {" "}
-        Manage all registered candidates participating in the election.
-      </p>
+      <div className="md:flex justify-between">
+        <div>
+          <h2 className="font-bold text-white">Registered Candidates</h2>
+          <p className="mb-4 text-slate-400">
+            {" "}
+            Manage all registered candidates participating in the election.
+          </p>
+        </div>
+        <div className="mb-5 md:mb-0">
+          <button
+            onClick={() => setCreateOpen(true)}
+            className="flex items-center w-full md:w-fit border border-border bg-accent text-text rounded-2xl px-4 py-1"
+          >
+            <IoIosAdd color="#fff" /> create candidate
+          </button>
+        </div>
+      </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-45">
@@ -650,6 +812,13 @@ export default memo(function CandidateTable({
           </tbody>
         </table>
       </div>
+
+      <CreateCandidateModal
+        open={createOpen}
+        positionOptions={uniquePositions}
+        onClose={() => setCreateOpen(false)}
+        onCreate={handleCreateCandidate}
+      />
 
       <CandidateManageModal
         candidate={managingCandidate}
